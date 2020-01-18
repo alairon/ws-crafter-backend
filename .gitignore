@@ -1,1 +1,5 @@
 node_modules
+.vscode
+
+# Temporary removal
+config/sql/credentials.json
