@@ -1,5 +1,5 @@
 const mysql = require('mysql');
-const { openConnection, closeConnection } = require('./dbOperations');
+const { openConnection } = require('./dbOperations');
 const mysqlConfig = require('../config/sql/credentials.json');
 
 const connection = mysql.createConnection({
@@ -9,15 +9,14 @@ const connection = mysql.createConnection({
   database: mysqlConfig.read.database,
 });
 
-function test() {
-  openConnection(connection);
-  connection.query('SELECT * from test', (error, rows, fields) => {
-    if (error) console.error (error.sqlMessage);
-    console.log(rows);
-    return (rows);
-  });
-
-  closeConnection(connection);
+function callback(err, results) {
+  if (err) throw err;
+  return (results);
 }
 
-exports.test = test;
+function readTest(request) {
+  openConnection(connection);
+  return connection.query(request, callback);
+}
+
+exports.readTest = readTest;
