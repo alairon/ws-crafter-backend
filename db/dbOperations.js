@@ -1,13 +1,13 @@
 function openConnection(connection) {
   connection.connect((err) => {
-    if (err) return (err.errno);
-    return (0);
+    if (err) console.error(err.errno);
+    console.log(`Connected as ID ${connection.threadID}`);
   });
 }
 
 function closeConnection(connection) {
   connection.end((err) => {
-    if (err) return (err.errno);
+    if (err) console.error(err.sqlMessage);
     return (0);
   });
 }
