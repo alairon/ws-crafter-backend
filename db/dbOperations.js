@@ -1,7 +1,8 @@
+/* eslint no-console: 0 */
+
 function openConnection(connection) {
   connection.connect((err) => {
     if (err) console.error(err.errno);
-    console.log(`Connected as ID ${connection.threadID}`);
   });
 }
 

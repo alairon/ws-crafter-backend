@@ -1,8 +1,9 @@
-const express = require('express');
+/* eslint no-console: 0 */
 
+const express = require('express');
 const mysql = require('mysql');
 const { openConnection } = require('./db/dbOperations');
-const mysqlConfig = require('./config/sql/credentials.json');
+const mysqlConfig = require('./sql/credentials.json');
 
 const connection = mysql.createConnection({
   host: mysqlConfig.read.host,
@@ -13,7 +14,6 @@ const connection = mysql.createConnection({
 
 
 const app = express();
-
 const port = 3000;
 
 let count = 0;
@@ -21,19 +21,20 @@ let count = 0;
 const readReq = (res, query) => {
   openConnection(connection);
   connection.query(query, (err, results) => {
-    if (err) res.send(`There was an error with your request: ${err.sqlMessage}`);
+    if (err) res.status(404).send(`There was an error with your request: ${err.sqlMessage}`);
     res.send(results);
   });
 };
 
 app.get('/', (req, res) => {
   console.log('Session requested');
+  res.send('Connection Sucessful');
 });
 
 app.get('/test', (req, res) => {
   console.log('Test requested');
-  console.log(`[READ_REQ] Request received ${count += 1} times this session.`);
-  const query = 'SELECT * from test';
+  console.log(`[TEST] Request received ${count += 1} times this session.`);
+  const query = 'SELECT * from Cards';
   readReq(res, query);
 });
 
