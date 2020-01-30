@@ -1,5 +1,5 @@
 const mysql = require('mysql');
-const mysqlConfig = require('../config/sql/credentials.json');
+const mysqlConfig = require('../sql/credentials.json');
 
 const connection = mysql.createConnection({
   host: mysqlConfig.write.host,

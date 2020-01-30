@@ -1,6 +1,6 @@
 const mysql = require('mysql');
 const { openConnection } = require('./dbOperations');
-const mysqlConfig = require('../config/sql/credentials.json');
+const mysqlConfig = require('../sql/credentials.json');
 
 const connection = mysql.createConnection({
   host: mysqlConfig.read.host,
@@ -9,14 +9,9 @@ const connection = mysql.createConnection({
   database: mysqlConfig.read.database,
 });
 
-function callback(err, results) {
-  if (err) throw err;
-  return (results);
-}
-
 function readTest(request) {
   openConnection(connection);
-  return connection.query(request, callback);
+  connection.query(request);
 }
 
 exports.readTest = readTest;
