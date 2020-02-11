@@ -1,16 +1,28 @@
-/* Initializes the wsCards database with predefined tables */
+/* Initializes the English (Global) wsCards database with predefined tables */
 USE wsCards_en;
 
+CREATE TABLE IF NOT EXISTS meta(
+    set_id varchar(8) PRIMARY KEY NOT NULL,
+    set_name varchar(64) NOT NULL,
+    set_number int,
+    set_side boolean,
+    total_cards int NOT NULL,
+    release_date date NOT NULL,
+    UNIQUE (set_id),
+    UNIQUE (set_name),
+    UNIQUE (release_date)
+);
+
 /* Shared values among the card types */
-CREATE TABLE IF NOT EXISTS cards(
+CREATE TABLE IF NOT EXISTS cards_general(
     card_id varchar(16) PRIMARY KEY NOT NULL,
     en_name varchar(256) NOT NULL,
-    jp_name varchar(256) NOT NULL,
-    card_rarity int NOT NULL,
-    card_type int NOT NULL,
-    card_color int NOT NULL,
-    card_side boolean NOT NULL,
-    card_trigger int NOT NULL,
+    jp_name varchar(256) CHARSET utf8mb4 NOT NULL,
+    set_id varchar(8) NOT NULL,
+    card_number smallint NOT NULL,
+    card_rarity smallint NOT NULL,
+    card_type boolean,
+    card_color smallint NOT NULL,
     card_flavorTxt varchar(512),
     card_abilityTxt varchar(512),
     card_img varchar(512),
@@ -25,6 +37,7 @@ CREATE TABLE IF NOT EXISTS cards_character(
     card_icon smallint,
     card_power int,
     card_soul smallint,
+    card_trigger smallint,
     card_trait1 varchar(32),
     card_trait2 varchar(32),
     UNIQUE (card_id)
@@ -42,12 +55,13 @@ CREATE TABLE IF NOT EXISTS cards_event(
 /* Values specific to climax cards */
 CREATE TABLE IF NOT EXISTS cards_climax(
     card_id varchar(16) PRIMARY KEY NOT NULL,
+    card_trigger smallint,
     UNIQUE (card_id)
 );
 
 /* Errata cards */
 CREATE TABLE IF NOT EXISTS cards_errata(
-    card_icon varchar(16) PRIMARY KEY NOT NULL,
+	card_id varchar(16) PRIMARY KEY NOT NULL,
     errata_type smallint NOT NULL,
     errata_desc varchar(512),
     UNIQUE (card_id)
