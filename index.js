@@ -34,7 +34,7 @@ app.get('/', (req, res) => {
 app.get('/test', (req, res) => {
   console.log('Test requested');
   console.log(`[TEST] Request received ${count += 1} times this session.`);
-  const query = 'SELECT * from Cards';
+  const query = 'SELECT * from cards_general';
   readReq(res, query);
 });
 
