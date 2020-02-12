@@ -1,18 +1,10 @@
 {
-  "meta": {
-    "set_id": "GBS",
-    "set_name": "Goblin Slayer",
-    "set_number": 63,
-    "set_side": "S",
-    "total_cards": 108,
-    "release_date": "2020-01-31"
-  },
   "general":  {
     "card_id": "GBS/S63-E001",
     "en_name": "Pride of an Elf, High Elf Archer",
     "jp_name": "森人の矜持 妖精弓手",
     "set_id": "GBS",
-    "card_number": 1,
+    "card_number": "1",
     "card_rarity": "RR",
     "card_type": "character",
     "card_color": "yellow",
