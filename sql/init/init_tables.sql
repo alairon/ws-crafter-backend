@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS cards_general(
     en_name varchar(256) NOT NULL,
     jp_name varchar(256) CHARSET utf8mb4 NOT NULL,
     set_id varchar(8) NOT NULL,
-    card_number smallint NOT NULL,
+    card_number varchar(8) NOT NULL,
     card_rarity smallint NOT NULL,
     card_type boolean,
     card_color smallint NOT NULL,
