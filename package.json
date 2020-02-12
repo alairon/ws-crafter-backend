@@ -4,8 +4,9 @@
   "description": "The backend for ws-crafter",
   "main": "index.js",
   "scripts": {
-    "dev": "next",
     "build": "next build",
+    "dev": "next",
+    "express": "node index.js",
     "start": "next start",
     "test": "mocha"
   },
