@@ -1,21 +1,25 @@
 {
     "env": {
-        "es6": true,
-        "node": true,
-        "mocha": true
+        "commonjs": true,
+        "node": true
     },
     "extends": [
-        "airbnb-base"
+        "eslint:recommended",
+        "plugin:react/recommended"
     ],
     "globals": {
         "Atomics": "readonly",
         "SharedArrayBuffer": "readonly"
     },
     "parserOptions": {
-        "ecmaVersion": 2018,
-        "sourceType": "module"
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": 2018
     },
+    "plugins": [
+        "react"
+    ],
     "rules": {
-        "prefer-arrow-callback": 0
     }
 }
