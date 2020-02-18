@@ -15,7 +15,6 @@ function insert(set) {
   const query = [];
   for (const element of Object.keys(set)) {
     for (const inner of Object.values(set)) {
-      // query.push(`INSERT INTO ${element} (${Object.keys(inner)}) VALUES (${Object.values(inner)})`);
       console.log (`${element}\n${Object.keys(inner)}\n${Object.values(inner)}\n`);
     }
   }

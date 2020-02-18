@@ -1,5 +1,6 @@
 # Developer-specific folders
 .vscode
+.next
 node_modules
 
 # Temporarily untracked to protect db credentials
