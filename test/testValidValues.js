@@ -2,7 +2,7 @@
 const { expect } = require('chai');
 
 // Functions to be tested
-const { isNull, isBoolean, isNumber, isString, isUndefined } = require('../src/validation');
+const { isNull, isBoolean, isNumber, isString, isUndefined } = require('../src/dataValidation');
 
 // Generic test data. Not to be used if testing for a specific data type.
 const num = 10;
