@@ -13,143 +13,184 @@ const str = "test";
 const obj = { "test": 10 };
 
 describe('Value Validation', () => {
-  describe('Function: isNull()', () => {
-    it('returns false if nothing is passed in', () => {
-      expect(isNull()).to.equal(false);
+  describe('1) Function: isNull()', () => {
+    context('A) Empty Values', () => {
+      it('null returns true', () => {
+        expect(isNull(null)).to.equal(true);
+      });
+      it('nothing passed in returns false', () => {
+        expect(isNull()).to.equal(false);
+      });
+      it('undefined returns false', () => {
+        expect(isNull(undefined)).to.equal(false);
+      });
     });
-    it('returns true if "null" is passed', () => {
-      expect(isNull(null)).to.equal(true);
-    });
-    it('returns false if "undefined" is passed in', () => {
-      expect(isNull(undefined)).to.equal(false);
-    })
-    it('returns false if a boolean is passed in', () => {
-      expect(isNull(bool)).to.equal(false);
-    });
-    it('returns false if a number is passed in', () => {
-      expect(isNull(num)).to.equal(false);
-    });
-    it('returns false if a string is passed in', () => {
-      expect(isNull(str)).to.equal(false);
-    });
-    it('returns false if an object is passed in', () => {
-      expect(isNull(obj)).to.equal(false);
+    context('B) Non-empty Values', () => {
+      it('a boolean returns false', () => {
+        expect(isNull(bool)).to.equal(false);
+      });
+      it('a number returns false', () => {
+        expect(isNull(num)).to.equal(false);
+      });
+      it('a string returns false', () => {
+        expect(isNull(str)).to.equal(false);
+      });
+      it('an object returns false', () => {
+        expect(isNull(obj)).to.equal(false);
+      });
     });
   });
 
-  describe('Function: isBoolean()', () => {
-    it('returns false if nothing is passed in', () => {
-      expect(isBoolean()).to.equal(false);
-    });    
-    it('returns false if "null" is passed in', () => {
-      expect(isBoolean(null)).to.equal(false);
+  describe('2) Function: isBoolean()', () => {
+    context('A) Valid Values', () => {
+      it('"true" returns true', () => {
+        expect(isBoolean(true)).to.equal(true);
+      });
+      it('"false" returns false', () => {
+        expect(isBoolean(false)).to.equal(true);
+      });
     });
-    it('returns false if "undefined" is passed in', () => {
-      expect(isBoolean(undefined)).to.equal(false);
+    context('B) Empty Values', () => {
+      it('nothing passed in returns false', () => {
+        expect(isBoolean()).to.equal(false);
+      });    
+      it('null returns false', () => {
+        expect(isBoolean(null)).to.equal(false);
+      });
+      it('undefined returns false', () => {
+        expect(isBoolean(undefined)).to.equal(false);
+      });
     });
-    it('returns true if "true" is passed in', () => {
-      expect(isBoolean(true)).to.equal(true);
-    });
-    it('returns true if "false" is passed in', () => {
-      expect(isBoolean(false)).to.equal(true);
-    });
-    it('returns false if a number is passed in', () => {
-      expect(isBoolean(num)).to.equal(false);
-    });
-    it('returns false if a string is passed in', () => {
-      expect(isBoolean(str)).to.equal(false);
+    context('C) Invalid Values', () => {
+      it('"true" returns false', () => {
+        expect(isBoolean('true')).to.equal(false);
+      });
+      it('"false" returns false', () => {
+        expect(isBoolean('false')).to.equal(false);
+      });
+      it('any number returns false', () => {
+        expect(isBoolean(num)).to.equal(false);
+      });
+      it(`"${str}" string returns false`, () => {
+        expect(isBoolean(str)).to.equal(false);
+      });
+      it('an object returns false', () => {
+        expect(isBoolean(obj)).to.equal(false);
+      });
     });
   });
 
   
-  describe('Function: isNumber()', () => {
-    it('returns false if nothing is passed in', () => {
-      expect(isNumber()).to.equal(false);
-    });    
-    it('returns false if "null" is passed in', () => {
-      expect(isNumber(null)).to.equal(false);
+  describe('3) Function: isNumber()', () => {
+    context('A) Valid Values', () => {
+      it('0 (zero) returns true', () => {
+        expect(isNumber(0)).to.equal(true);
+      });
+      it('10 (postive number) returns true', () => {
+        expect(isNumber(10)).to.equal(true);
+      });
+      it('10.01 (positive decimal) returns true', () => {
+        expect(isNumber(10.01)).to.equal(true);
+      });
+      it('-10 (negative number) returns true', () => {
+        expect(isNumber(-10)).to.equal(true);
+      });
+      it('-10.01 (negative decimal) returns true', () => {
+        expect(isNumber(-10.01)).to.equal(true);
+      });
     });
-    it('returns false if "undefined" is passed in', () => {
-      expect(isNumber(undefined)).to.equal(false);
+    context('B) Empty Values', () => {
+      it('nothing passed in returns false', () => {
+        expect(isNumber()).to.equal(false);
+      });    
+      it('null returns false', () => {
+        expect(isNumber(null)).to.equal(false);
+      });
+      it('undefined returns false', () => {
+        expect(isNumber(undefined)).to.equal(false);
+      });
     });
-    it('returns true if a boolean is passed in', () => {
-      expect(isNumber(true)).to.equal(false);
-    });
-    it('returns false if a NaN (not a number) is passed in', () => {
-      expect(isNumber(NaN)).to.equal(false);
-    });
-    it('returns true if zero is passed in', () => {
-      expect(isNumber(0)).to.equal(true);
-    });
-    it('returns true if a postive number is passed in', () => {
-      expect(isNumber(10)).to.equal(true);
-    });
-    it('returns true if a positive decimal number is passed in', () => {
-      expect(isNumber(10.01)).to.equal(true);
-    });
-    it('returns true if a negative number is passed in', () => {
-      expect(isNumber(-10)).to.equal(true);
-    });
-    it('returns true if a negative decimal number is passed in', () => {
-      expect(isNumber(-10.01)).to.equal(true);
-    });
-    it('returns false if a string is passed in', () => {
-      expect(isNumber(str)).to.equal(false);
-    });
-    it('returns false if an object is passed in', () => {
-      expect(isNumber(obj)).to.equal(false);
-    });
-  });
-
-  describe('Function: isString()', () => {
-    it('returns false if nothing is passed in', () => {
-      expect(isString()).to.equal(false);
-    });    
-    it('returns false if "null" is passed in', () => {
-      expect(isString(null)).to.equal(false);
-    });
-    it('returns false if "undefined" is passed in', () => {
-      expect(isString(undefined)).to.equal(false);
-    });
-    it('returns false if a boolean is passed in', () => {
-      expect(isString(bool)).to.equal(false);
-    });
-    it('returns false if a number is passed in', () => {
-      expect(isString(num)).to.equal(false);
-    });
-    it('returns true if a string is passed in', () => {
-      expect(isString(str)).to.equal(true);
-    });
-    it('returns false if an object is passed in', () => {
-      expect(isString(obj)).to.equal(false);
+    context('C) Invalid Values', () => {
+      it('boolean returns false', () => {
+        expect(isNumber(true)).to.equal(false);
+      });
+      it('NaN (not a number) returns false', () => {
+        expect(isNumber(NaN)).to.equal(false);
+      });
+      it(`"${str}" (string) returns false`, () => {
+        expect(isNumber(str)).to.equal(false);
+      });
+      it('An object is returns false', () => {
+        expect(isNumber(obj)).to.equal(false);
+      });
     });
   });
 
-  describe('Function: isUndefined()', () => {
-    it('returns true if nothing is passed in', () => {
-      expect(isUndefined()).to.equal(true);
+  describe('4) Function: isString()', () => {
+    context('A) Valid Values', () => {
+      it('a string returns true', () => {
+        expect(isString(str)).to.equal(true);
+      });
+      it('an empty string returns true', () => {
+        expect(isString('')).to.equal(true);
+      });
     });
-    it('returns false if null is passed in', () => {
-      expect(isUndefined(null)).to.equal(false);
+    context('B) Empty Values', () => {
+      it('nothing passed in returns false', () => {
+        expect(isString()).to.equal(false);
+      });    
+      it('null returns false', () => {
+        expect(isString(null)).to.equal(false);
+      });
+      it('undefined returns false', () => {
+        expect(isString(undefined)).to.equal(false);
+      });
     });
-    it('returns false if a boolean is passed in', () => {
-      expect(isUndefined(bool)).to.equal(false);
-    });
-    it('returns false if NaN (not a number) is passed in', () => {
-      expect(isUndefined(NaN)).to.equal(false);
-    });
-    it('returns false if a number is passed in', () => {
-      expect(isUndefined(num)).to.equal(false);
-    });
-    it('returns false if a string is passed in', () => {
-      expect(isUndefined(str)).to.equal(false);
-    });
-    it('returns false if an object is passed in', () => {
-      expect(isUndefined(obj)).to.equal(false);
+    context('C) Invalid Values', () => {
+      it('a boolean returns false', () => {
+        expect(isString(bool)).to.equal(false);
+      });
+      it('a number returns false', () => {
+        expect(isString(num)).to.equal(false);
+      });
+      it('an object returns false', () => {
+        expect(isString(obj)).to.equal(false);
+      });
     });
   });
 
-  describe('Function: isDate()', () => {
+  describe('5) Function: isUndefined()', () => {
+    context('A) Empty Values', () => {
+      it('nothing passed in returns true', () => {
+        expect(isUndefined()).to.equal(true);
+      });
+      it('undefined returns true', () => {
+        expect(isUndefined(undefined)).to.equal(true);
+      });
+      it('null returns false', () => {
+        expect(isUndefined(null)).to.equal(false);
+      });
+      it('NaN (not a number) returns false', () => {
+        expect(isUndefined(NaN)).to.equal(false);
+      });
+    });
+    context('B) Non-empty Values', () => {
+      it('a boolean returns false', () => {
+        expect(isUndefined(bool)).to.equal(false);
+      });
+      it('a number returns false', () => {
+        expect(isUndefined(num)).to.equal(false);
+      });
+      it('a string returns false', () => {
+        expect(isUndefined(str)).to.equal(false);
+      });
+      it('an object returns false', () => {
+        expect(isUndefined(obj)).to.equal(false);
+      });
+    });
+  });
+
+  describe('6) Function: isDate()', () => {
     describe('A) Date Format', () => {
       context('i) Correct Formatting (YYYY-MM-DD)', () => {
         it('\'2020-01-01\' as a string returns true', () => {
