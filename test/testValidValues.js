@@ -1,8 +1,10 @@
 /* eslint-disable no-undef */
+/* eslint-disable no-octal*/
+
 const { expect } = require('chai');
 
 // Functions to be tested
-const { isNull, isBoolean, isNumber, isString, isUndefined } = require('../src/dataValidation');
+const { isNull, isBoolean, isNumber, isString, isValidDate, isUndefined } = require('../src/dataValidation');
 
 // Generic test data. Not to be used if testing for a specific data type.
 const num = 10;
@@ -144,6 +146,89 @@ describe('Value Validation', () => {
     });
     it('returns false if an object is passed in', () => {
       expect(isUndefined(obj)).to.equal(false);
+    });
+  });
+
+  describe('Function: isDate()', () => {
+    describe('A) Date Format', () => {
+      context('i) Correct Formatting (YYYY-MM-DD)', () => {
+        it('\'2020-01-01\' as a string returns true', () => {
+          expect(isValidDate('2020-01-01')).to.equal(true);
+        });
+        it('2020-01-01 without quotes returns false', () => {
+          expect(isValidDate(2020-01-01)).to.equal(false);
+        });
+      });
+      context('ii) Incorrect format', () => {
+        it('01-01-2020 (MM-DD-YYYY) returns false', () => {
+          expect(isValidDate('01-01-2020')).to.equal(false);
+        });
+        it('20-01-2020 (DD-MM-YYYY) returns false', () => {
+          expect(isValidDate('20-01-2020')).to.equal(false);
+        });
+        it('20-01-01 (YY-MM-DD) returns false', () => {
+          expect(isValidDate('20-01-01')).to.equal(false);
+        });
+        it('01-01-20 (MM-DD-YY) returns false', () => {
+          expect(isValidDate('01-01-20')).to.equal(false);
+        });
+        it('20-01-20 (DD-MM-YY) returns false', () => {
+          expect(isValidDate('20-01-20')).to.equal(false);
+        });
+        it('Date() returns false', () => {
+          expect(isValidDate(Date())).to.equal(false);
+        });
+      });
+    });
+    describe('B) Invalid values', () => {
+      context('i) Empty values', () => {
+        it('nothing passed in returns false', () => {
+          expect(isValidDate()).to.equal(false);
+        });
+        it('null returns false', () => {
+          expect(isValidDate(null)).to.equal(false);
+        });
+        it('undefined returns false', () => {
+          expect(isValidDate(undefined)).to.equal(false);
+        });
+      });
+    });
+    describe('C) Basic Verification', () => {
+      context('i) Correct format, valid month, valid day', () => {
+        it('2020-01-01 returns true', () => {
+          expect(isValidDate('2020-01-01')).to.equal(true);
+        });
+        it('2020-10-01 returns true', () => {
+          expect(isValidDate('2020-10-20')).to.equal(true);
+        });
+        it('2020-12-31 returns true', () => {
+          expect(isValidDate('2020-12-31')).to.equal(true);
+        });
+      });
+      context('ii) Correct format, invalid month, valid day', () => {
+        it('2020-00-01 returns false', () => {
+          expect(isValidDate('2020-00-01')).to.equal(false);
+        });
+        it('2020-13-01 returns false', () => {
+          expect(isValidDate('2020-13-01')).to.equal(false);
+        });
+      });
+      context('iii) Correct format, valid month, invalid day', () => {
+        it('2020-01-00 returns false', () => {
+          expect(isValidDate('2020-01-00')).to.equal(false);
+        });
+        it('2020-10-01 returns false', () => {
+          expect(isValidDate('2020-01-32')).to.equal(false);
+        });
+      });
+      context('iv) Correct format, invalid month, invalid day', () => {
+        it('2020-00-00 returns false', () => {
+          expect(isValidDate('2020-00-00')).to.equal(false);
+        });
+        it('2020-13-32 returns false', () => {
+          expect(isValidDate('2020-13-32')).to.equal(false);
+        });
+      });
     });
   });
 });
