@@ -4,9 +4,9 @@ USE wsCards_en;
 CREATE TABLE IF NOT EXISTS meta(
     set_id varchar(8) PRIMARY KEY NOT NULL,
     set_name varchar(64) NOT NULL,
-    set_number int,
+    set_number smallint,
     set_side boolean,
-    total_cards int NOT NULL,
+    total_cards smallint NOT NULL,
     release_date date NOT NULL,
     UNIQUE (set_id),
     UNIQUE (set_name),
@@ -16,13 +16,13 @@ CREATE TABLE IF NOT EXISTS meta(
 /* Shared values among the card types */
 CREATE TABLE IF NOT EXISTS cards_general(
     card_id varchar(16) PRIMARY KEY NOT NULL,
-    en_name varchar(256) NOT NULL,
-    jp_name varchar(256) CHARSET utf8mb4 NOT NULL,
+    en_name varchar(128) NOT NULL,
+    jp_name varchar(128) CHARSET utf8mb4 NOT NULL,
     set_id varchar(8) NOT NULL,
     card_number varchar(8) NOT NULL,
-    card_rarity smallint NOT NULL,
+    card_rarity tinyint NOT NULL,
     card_type boolean,
-    card_color smallint NOT NULL,
+    card_color tinyint NOT NULL,
     card_flavorTxt varchar(512),
     card_abilityTxt varchar(512),
     card_img varchar(512),
@@ -32,12 +32,12 @@ CREATE TABLE IF NOT EXISTS cards_general(
 /* Values specific to character cards */
 CREATE TABLE IF NOT EXISTS cards_character(
     card_id varchar(16) PRIMARY KEY NOT NULL,
-    card_level smallint NOT NULL,
-    card_cost smallint NOT NULL,
-    card_icon smallint,
-    card_power int,
-    card_soul smallint,
-    card_trigger smallint,
+    card_level tinyint NOT NULL,
+    card_cost tinyint NOT NULL,
+    card_icon tinyint,
+    card_power smallint,
+    card_soul tinyint,
+    card_trigger tinyint,
     card_trait1 varchar(32),
     card_trait2 varchar(32),
     UNIQUE (card_id)
@@ -46,16 +46,17 @@ CREATE TABLE IF NOT EXISTS cards_character(
 /* Values specific to event cards */
 CREATE TABLE IF NOT EXISTS cards_event(
     card_id varchar(16) PRIMARY KEY NOT NULL,
-    card_level smallint NOT NULL,
-    card_cost smallint NOT NULL,
-    card_icon smallint,
+    card_level tinyint NOT NULL,
+    card_cost tinyint NOT NULL,
+    card_icon tinyint,
+    card_trigger tinyint,
     UNIQUE (card_id)
 );
 
 /* Values specific to climax cards */
 CREATE TABLE IF NOT EXISTS cards_climax(
     card_id varchar(16) PRIMARY KEY NOT NULL,
-    card_trigger smallint,
+    card_trigger tinyint,
     UNIQUE (card_id)
 );
 
