@@ -6,8 +6,6 @@ const { expect } = require('chai');
 // Functions to be tested
 const { metaCheck, metaValues, generalCheck } = require ('../src/jsonValidaton');
 
-// Load Chai JSON for JSON testing
-
 const validMetaJSON = {
   "set_id": "TST",
   "set_name": "Test Data",
@@ -37,7 +35,7 @@ describe('Metadata Validation', () => {
       expect(metaCheck()).to.equal(1);
     });
     it ('returns 2 for missing values', () => {
-      expect (metaCheck({})).to.equal(2);
+      expect(metaCheck({})).to.equal(2);
     });
     it ('returns 2 for mistyped values', () => {
       expect(metaCheck(typoMetaJSON)).to.equal(2);
