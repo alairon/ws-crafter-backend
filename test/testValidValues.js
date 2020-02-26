@@ -270,6 +270,41 @@ describe('Value Validation', () => {
           expect(isValidDate('2020-13-32')).to.equal(false);
         });
       });
+      context('v) Incorrect format, extraneous characters', () => {
+        it('202020-01-01 returns false', () => {
+          expect(isValidDate('202020-01-01')).to.equal(false);
+        });
+        it('"2020-001-01" returns false', () => {
+          expect(isValidDate('2020-001-01')).to.equal(false);
+        });
+        it('"2020-01-001" returns false', () => {
+          expect(isValidDate('2020-01-001')).to.equal(false);
+        });
+        it('"-2020-01-01" returns false', () => {
+          expect(isValidDate('-2020-01-01')).to.equal(false);
+        });
+        it('"2020-01-01-" returns false', () => {
+          expect(isValidDate('2020-01-01-')).to.equal(false);
+        });
+        it('"\\2020-01-01" returns false', () => {
+          expect(isValidDate('\\2020-01-01')).to.equal(false);
+        });
+        it('"\\t2020-01-01" returns false', () => {
+          expect(isValidDate('\t2020-01-01')).to.equal(false);
+        });
+        it('"2020\\t01-01" returns false', () => {
+          expect(isValidDate('2020\t01-01')).to.equal(false);
+        });
+        it('"2020-01-01\\t" returns false', () => {
+          expect(isValidDate('2020-01-01\t')).to.equal(false);
+        });
+        it('2020--01--01 returns false', () => {
+          expect(isValidDate('2020--01--01')).to.equal(false);
+        });
+        it('"-2020-01-01-" returns false', () => {
+          expect(isValidDate('-2020-01-01-')).to.equal(false);
+        });
+      });
     });
   });
 });
