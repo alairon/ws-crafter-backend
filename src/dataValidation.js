@@ -35,7 +35,7 @@ function isString (object) {
 }
 
 exports.isValidDate = function (object) {
-  const dateFormat = /\d{4}-(0[1-9]|1[012])-(0[1-9]|1[0-9]|2[0-9]|3[01])/gm;
+  const dateFormat = /^(\d{4}-(0[1-9]|1[012])-(0[1-9]|1[0-9]|2[0-9]|3[01]))$/gm;
   if (isString (object)) {
     //Stop if the string is not in YYYY-MM-DD or fails a simple date check (e.g. MM > 12, DD > 31)
     if (isNull(dateFormat.exec(object))) {
