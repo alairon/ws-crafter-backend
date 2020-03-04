@@ -1,5 +1,7 @@
-node_modules
+# Developer-specific folders
 .vscode
+.next
+node_modules
 
-# Temporary removal
-config/sql/credentials.json
+# Temporarily untracked to protect db credentials
+sql/credentials.json
