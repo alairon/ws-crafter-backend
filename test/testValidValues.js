@@ -306,5 +306,75 @@ describe('Value Validation', () => {
         });
       });
     });
+    describe('D) Advanced Verification', () => {
+      describe('i) Months with 30/31 days', () => {
+        it('2020-01-31 returns true', () => {
+          expect(isValidDate('2020-01-31')).to.equal(true);
+        });
+        it('2020-02-30 returns false', () => {
+          expect(isValidDate('2020-02-30')).to.equal(false);
+        });
+        it('2020-02-31 returns false', () => {
+          expect(isValidDate('2020-02-31')).to.equal(false);
+        });
+        it('2020-03-31 returns true', () => {
+          expect(isValidDate('2020-03-31')).to.equal(true);
+        });
+        it('2020-04-31 returns false', () => {
+          expect(isValidDate('2020-04-31')).to.equal(false);
+        });
+        it('2020-05-31 returns true', () => {
+          expect(isValidDate('2020-05-31')).to.equal(true);
+        });
+        it('2020-06-31 returns false', () => {
+          expect(isValidDate('2020-06-31')).to.equal(false);
+        });
+        it('2020-07-31 returns true', () => {
+          expect(isValidDate('2020-07-31')).to.equal(true);
+        });
+        it('2020-08-31 returns true', () => {
+          expect(isValidDate('2020-08-31')).to.equal(true);
+        });
+        it('2020-09-31 returns false', () => {
+          expect(isValidDate('2020-09-31')).to.equal(false);
+        });
+        it('2020-10-31 returns true', () => {
+          expect(isValidDate('2020-10-31')).to.equal(true);
+        });
+        it('2020-11-31 returns false', () => {
+          expect(isValidDate('2020-11-31')).to.equal(false);
+        });
+        it('2020-12-31 returns true', () => {
+          expect(isValidDate('2020-12-31')).to.equal(true);
+        });
+      });
+    });
+    describe('E) Leap Years', () => {
+      describe('i) Common Years', () => {
+        it('2019-02-29 returns false', () => {
+          expect(isValidDate('2019-02-29')).to.equal(false);
+        });
+        it('2041-02-29 returns false', () => {
+          expect(isValidDate('2041-02-29')).to.equal(false);
+        });
+        it('1900-02-29 returns false', () => {
+          expect(isValidDate('1900-02-29')).to.equal(false);
+        });
+        it('2100-02-29 returns false', () => {
+          expect(isValidDate('2100-02-29')).to.equal(false);
+        });
+      });
+      describe('ii) Leap Years', () => {
+        it('2000-02-29 returns true', () => {
+          expect(isValidDate('2000-02-29')).to.equal(true);
+        });
+        it('2020-02-29 returns true', () => {
+          expect(isValidDate('2020-02-29')).to.equal(true);
+        });
+        it('2400-02-29 returns true', () => {
+          expect(isValidDate('2400-02-29')).to.equal(true);
+        });
+      });
+    });
   });
 });
