@@ -33,6 +33,7 @@ function metaValueCheck(metaJSON) {
   return 0;
 }
 
+// Simple check for general shared rows
 function generalCheck(json) {
   const errorArray = [];
 
@@ -53,6 +54,59 @@ function generalCheck(json) {
   return 0;
 }
 
+// Simple check for characters
+function charCheck(json) {
+  const errorArray = [];
+
+  // Fatal errors. Do not continue if any of these requirements fail.
+  if (isEmpty(json)) return 1;
+  
+  // Check for empty/null values in db rows marked as "not null"
+  if (isEmpty(json.card_id)) errorArray.push({"Error": "Missing card ID"});
+  if (isEmpty(json.card_level)) errorArray.push({"Error": "Missing card's level"});
+  if (isEmpty(json.card_cost)) errorArray.push({"Error": "Missing card's cost"});
+  if (isEmpty(json.card_power)) errorArray.push({"Error": "Missing card's power"});
+  if (isEmpty(json.card_soul)) errorArray.push({"Error": "Missing card's soul count"});
+
+  // Return the array of errors, if any. Return 0 otherwise.
+  if (errorArray.length !== 0) return 2;
+  return 0;
+}
+
+// Simple check for event cards
+function eventCheck(json) {
+  const errorArray = [];
+
+  // Fatal errors. Do not continue if any of these requirements fail.
+  if (isEmpty(json)) return 1;
+  
+  // Check for empty/null values in db rows marked as "not null"
+  if (isEmpty(json.card_id)) errorArray.push({"Error": "Missing card ID"});
+  if (isEmpty(json.card_level)) errorArray.push({"Error": "Missing card's level"});
+  if (isEmpty(json.card_cost)) errorArray.push({"Error": "Missing card's cost"});
+
+  // Return the array of errors, if any. Return 0 otherwise.
+  if (errorArray.length !== 0) return 2;
+  return 0;
+}
+
+function climaxCheck(json) {
+  const errorArray = [];
+
+  // Fatal errors. Do not continue if any of these requirements fail.
+  if (isEmpty(json)) return 1;
+  
+  // Check for empty/null values in db rows marked as "not null"
+  if (isEmpty(json.card_id)) errorArray.push({"Error": "Missing card ID"});
+
+  // Return the array of errors, if any. Return 0 otherwise.
+  if (errorArray.length !== 0) return 2;
+  return 0;
+}
+
 exports.metaCheck = metaExistCheck;
 exports.metaValues = metaValueCheck;
 exports.generalCheck = generalCheck;
+exports.charCheck = charCheck;
+exports.eventCheck = eventCheck;
+exports.climaxCheck = climaxCheck;

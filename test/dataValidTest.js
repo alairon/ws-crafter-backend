@@ -48,3 +48,12 @@ describe('Metadata Validation', () => {
     });
   });
 });
+
+/* Character Set Tests */
+describe('2. Character Data Validation', () => {
+  describe('A) Existence of Data', () => {
+    it('returns 0 when all required fields are present', () => {
+      expect()
+    })
+  });
+});
