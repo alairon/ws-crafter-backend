@@ -190,7 +190,7 @@ describe('Value Validation', () => {
     });
   });
 
-  describe('6) Function: isDate()', () => {
+  describe('6) Function: isValidDate()', () => {
     describe('A) Date Format', () => {
       context('i) Correct Formatting (YYYY-MM-DD)', () => {
         it('\'2020-01-01\' as a string returns true', () => {
