@@ -1,4 +1,4 @@
-const { isEmpty, isUndefined, isString, isNumber } = require('./dataValidation');
+const { isEmpty, isString, isNumber } = require('./dataValidation');
 
 function metaExistCheck(metaJSON) {
   const errorArray = [];
@@ -25,11 +25,11 @@ function metaValueCheck(metaJSON) {
 
   if (!isString(metaJSON.set_id)) errorArray.push ({"Error": "Set ID requires a string"});
   if (!isString(metaJSON.set_name)) errorArray.push ({"Error": "Set Name requires a string"});
-  if (!isNumber(metaJSON.set_number)) errorArray.push ({"Error": "Set Number requires an integer"});
+  if (!isString(metaJSON.series_set)) errorArray.push({"Error": "Missing series set name"});
   if (!isNumber(metaJSON.total_cards)) errorArray.push ({"Error": "Total number of Cards requires an integer"});
 
   // Return the array of errors, if any. Return 0 otherwise.
-  if (errorArray.length !== 0) return errorArray;
+  if (errorArray.length !== 0) return 2;
   return 0;
 }
 
@@ -62,7 +62,7 @@ function charCheck(json) {
   if (isEmpty(json)) return 1;
   
   // Check for empty/null values in db rows marked as "not null"
-  if (isEmpty(json.card_id)) errorArray.push({"Error": "Missing card ID"});
+  if (!isString(json.card_id)) errorArray.push({"Error": "Missing card ID"});
   if (isEmpty(json.card_level)) errorArray.push({"Error": "Missing card's level"});
   if (isEmpty(json.card_cost)) errorArray.push({"Error": "Missing card's cost"});
   if (isEmpty(json.card_power)) errorArray.push({"Error": "Missing card's power"});
@@ -81,9 +81,9 @@ function eventCheck(json) {
   if (isEmpty(json)) return 1;
   
   // Check for empty/null values in db rows marked as "not null"
-  if (isEmpty(json.card_id)) errorArray.push({"Error": "Missing card ID"});
-  if (isEmpty(json.card_level)) errorArray.push({"Error": "Missing card's level"});
-  if (isEmpty(json.card_cost)) errorArray.push({"Error": "Missing card's cost"});
+  if (!isString(json.card_id)) errorArray.push({"Error": "Missing card ID"});
+  if (!isNumber(json.card_level)) errorArray.push({"Error": "Missing card's level"});
+  if (!isNumber(json.card_cost)) errorArray.push({"Error": "Missing card's cost"});
 
   // Return the array of errors, if any. Return 0 otherwise.
   if (errorArray.length !== 0) return 2;
