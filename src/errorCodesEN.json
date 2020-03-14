@@ -1,0 +1,17 @@
+{
+    "0": "OK",
+    "1": "General Error",
+    "2": "File not found",
+    "3": "File could not be accessed",
+
+    "10": "-",
+    "11": "Set is empty",
+    "12": "Set ID is empty",
+    "13": "Total number of cards is empty",
+
+    "20": "Metadata is not in a JSON format",
+    "21": "Set ID is empty",
+    "22": "No set name",
+    "23": "Series set name",
+    "24": "Number of cards is empty"
+}
