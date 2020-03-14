@@ -11,6 +11,7 @@ const validMetaJSON = {
   "set_name": "Test Data",
   "set_number": 1,
   "set_side": 'W',
+  "series_set": "TST MASTER",
   "total_cards": 1,
   "release_date": 2020-02-23
 }
