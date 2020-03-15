@@ -4,7 +4,7 @@
 const { expect } = require('chai');
 
 // Functions to be tested
-const { metaCheck, metaValues, generalCheck } = require ('../src/jsonValidaton');
+const { metaCheck, metaValues } = require ('../src/validation/jsonValidation');
 
 const validMetaJSON = {
   "set_id": "TST",
