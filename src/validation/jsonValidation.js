@@ -55,7 +55,7 @@ function generalCheck(json) {
 }
 
 // Simple check for characters
-function charCheck(json) {
+function characterCheck(json) {
   const errorArray = [];
 
   // Fatal errors. Do not continue if any of these requirements fail.
@@ -104,9 +104,30 @@ function climaxCheck(json) {
   return 0;
 }
 
+function cardValidation(cardData) {
+  generalCheck(cardData.general);
+  console.log(`Checking the validity of ${cardData.general.en_name} (${cardData.general.card_id})`)
+
+  const cardType = cardData.general.card_type;
+  console.log(`Determined ${cardData.general.card_id} as a(n) ${cardType} card`);
+
+  switch(cardType){
+    case 'character':
+      console.log(characterCheck(cardData.character));
+      break;
+    case 'event':
+      console.log(eventCheck(cardData.event));
+      break;
+    case 'climax':
+      console.log(climaxCheck(cardData.climax));
+      break;
+    default:
+      console.log("This isn't a valid card");
+  }
+
+  return 0;
+}
+
 exports.metaCheck = metaExistCheck;
 exports.metaValues = metaValueCheck;
-exports.generalCheck = generalCheck;
-exports.charCheck = charCheck;
-exports.eventCheck = eventCheck;
-exports.climaxCheck = climaxCheck;
+exports.cardValidation = cardValidation;
