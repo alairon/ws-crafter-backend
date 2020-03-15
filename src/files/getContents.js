@@ -1,11 +1,11 @@
 const { readdirSync } = require('fs');
 const { resolve } = require('path');
-const { isEmpty } = require('../dataValidation');
+const { isEmpty } = require('../validation/dataValidation');
 
 /* Finds files with the .json extension*/
 function parseList (fileList){
   // Regex that searches for .json -- case insensitive
-  const jsonRegex = /(\.json)$/gmi;
+  const jsonRegex = /(\.json)$/mi;
   for (let i = fileList.length-1; i >= 0; i--){
     if (!(jsonRegex.test(fileList[i]))){
       fileList.splice(i, 1);
@@ -31,7 +31,7 @@ function getFiles (dir) {
 
 function getMeta (rootDir){
   let fileList;
-  const metaRegex = /^meta\.json$/gmi;
+  const metaRegex = /^meta\.json$/mi;
 
   try {
     fileList = readdirSync(rootDir, 'utf8');
