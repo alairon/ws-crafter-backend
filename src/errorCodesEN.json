@@ -4,10 +4,8 @@
     "2": "File not found",
     "3": "File could not be accessed",
 
-    "10": "-",
-    "11": "Set is empty",
-    "12": "Set ID is empty",
-    "13": "Total number of cards is empty",
+    "10": "meta.json could not be found in this directory",
+    "11": "There were no JSON files to be found in the cards directory",
 
     "20": "Metadata is not in a JSON format",
     "21": "Set ID is empty",
