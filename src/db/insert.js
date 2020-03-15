@@ -1,8 +1,7 @@
 /* eslint-disable no-restricted-syntax */
-
-
 const mysql = require('mysql');
 const mysqlConfig = require('../sql/credentials.json');
+const { importCardList } = require('../files/getContents');
 
 const connection = mysql.createConnection({
   host: mysqlConfig.write.host,
@@ -11,20 +10,19 @@ const connection = mysql.createConnection({
   database: mysqlConfig.write.database,
 });
 
-function insert(set) {
-  const query = [];
-  for (const element of Object.keys(set)) {
-    for (const inner of Object.values(set)) {
-      console.log (`${element}\n${Object.keys(inner)}\n${Object.values(inner)}\n`);
-    }
-  }
+function addToDB(query){
+  console.log(`Writing to ${connection}`);
 
-  for (const element of query) {
-    connection.query(element, (err, result) => {
-      if (err) console.log(err);
-      console.log(result);
-    });
-  }
+  return 0;
 }
 
-exports.connection = connection;
+function insert(setRootDir) {
+  const query = [];
+  const fileList = importCardList(setRootDir);
+
+  console.log(fileList);
+
+  return 0;
+}
+
+exports.insert = insert;
