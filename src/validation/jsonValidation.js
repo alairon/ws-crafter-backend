@@ -1,4 +1,4 @@
-const { isEmpty, isUndefined, isString, isNumber } = require('./dataValidation');
+const { isEmpty, isString, isNumber } = require('./dataValidation');
 
 function metaExistCheck(metaJSON) {
   const errorArray = [];
@@ -25,11 +25,11 @@ function metaValueCheck(metaJSON) {
 
   if (!isString(metaJSON.set_id)) errorArray.push ({"Error": "Set ID requires a string"});
   if (!isString(metaJSON.set_name)) errorArray.push ({"Error": "Set Name requires a string"});
-  if (!isNumber(metaJSON.set_number)) errorArray.push ({"Error": "Set Number requires an integer"});
+  if (!isString(metaJSON.series_set)) errorArray.push({"Error": "Missing series set name"});
   if (!isNumber(metaJSON.total_cards)) errorArray.push ({"Error": "Total number of Cards requires an integer"});
 
   // Return the array of errors, if any. Return 0 otherwise.
-  if (errorArray.length !== 0) return errorArray;
+  if (errorArray.length !== 0) return 2;
   return 0;
 }
 
@@ -55,14 +55,14 @@ function generalCheck(json) {
 }
 
 // Simple check for characters
-function charCheck(json) {
+function characterCheck(json) {
   const errorArray = [];
 
   // Fatal errors. Do not continue if any of these requirements fail.
   if (isEmpty(json)) return 1;
   
   // Check for empty/null values in db rows marked as "not null"
-  if (isEmpty(json.card_id)) errorArray.push({"Error": "Missing card ID"});
+  if (!isString(json.card_id)) errorArray.push({"Error": "Missing card ID"});
   if (isEmpty(json.card_level)) errorArray.push({"Error": "Missing card's level"});
   if (isEmpty(json.card_cost)) errorArray.push({"Error": "Missing card's cost"});
   if (isEmpty(json.card_power)) errorArray.push({"Error": "Missing card's power"});
@@ -81,9 +81,9 @@ function eventCheck(json) {
   if (isEmpty(json)) return 1;
   
   // Check for empty/null values in db rows marked as "not null"
-  if (isEmpty(json.card_id)) errorArray.push({"Error": "Missing card ID"});
-  if (isEmpty(json.card_level)) errorArray.push({"Error": "Missing card's level"});
-  if (isEmpty(json.card_cost)) errorArray.push({"Error": "Missing card's cost"});
+  if (!isString(json.card_id)) errorArray.push({"Error": "Missing card ID"});
+  if (!isNumber(json.card_level)) errorArray.push({"Error": "Missing card's level"});
+  if (!isNumber(json.card_cost)) errorArray.push({"Error": "Missing card's cost"});
 
   // Return the array of errors, if any. Return 0 otherwise.
   if (errorArray.length !== 0) return 2;
@@ -104,9 +104,30 @@ function climaxCheck(json) {
   return 0;
 }
 
+function cardValidation(cardData) {
+  generalCheck(cardData.general);
+  console.log(`Checking the validity of ${cardData.general.en_name} (${cardData.general.card_id})`)
+
+  const cardType = cardData.general.card_type;
+  console.log(`Determined ${cardData.general.card_id} as a(n) ${cardType} card`);
+
+  switch(cardType){
+    case 'character':
+      console.log(characterCheck(cardData.character));
+      break;
+    case 'event':
+      console.log(eventCheck(cardData.event));
+      break;
+    case 'climax':
+      console.log(climaxCheck(cardData.climax));
+      break;
+    default:
+      console.log("This isn't a valid card");
+  }
+
+  return 0;
+}
+
 exports.metaCheck = metaExistCheck;
 exports.metaValues = metaValueCheck;
-exports.generalCheck = generalCheck;
-exports.charCheck = charCheck;
-exports.eventCheck = eventCheck;
-exports.climaxCheck = climaxCheck;
+exports.cardValidation = cardValidation;

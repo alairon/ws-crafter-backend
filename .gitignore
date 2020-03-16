@@ -3,5 +3,8 @@
 .next
 node_modules
 
-# Temporarily untracked to protect db credentials
+# Untracked card contents to reduce space
+data/*
+
+# Untracked to protect db credentials
 sql/credentials.json
