@@ -1,4 +1,7 @@
-DROP DATABASE IF EXISTS wsCards_en;
-DROP DATABASE IF EXISTS wsCards_jp;
-CREATE DATABASE IF NOT EXISTS wsCards_en;
-CREATE DATABASE IF NOT EXISTS wsCards_jp;
+USE wsCards_en;
+
+DELETE FROM meta;
+DELETE FROM cards_general;
+DELETE FROM cards_character;
+DELETE FROM cards_event;
+DELETE FROM cards_climax;
