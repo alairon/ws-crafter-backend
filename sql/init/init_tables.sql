@@ -1,6 +1,7 @@
 /* Initializes the English (Global) wsCards database with predefined tables */
 USE wsCards_en;
 
+/* Metadata for the set */
 CREATE TABLE IF NOT EXISTS meta(
     set_id varchar(8) PRIMARY KEY NOT NULL,
     set_name varchar(64) NOT NULL,
