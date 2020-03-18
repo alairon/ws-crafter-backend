@@ -94,13 +94,13 @@ function cardValidation(cardData) {
   const cardType = cardData.general.card_type;
 
   switch(cardType){
-    case 'character':
+    case 0:
       characterCheck(cardData.character);
       break;
-    case 'event':
+    case 1:
       eventCheck(cardData.event);
       break;
-    case 'climax':
+    case 2:
       climaxCheck(cardData.climax);
       break;
     default:
