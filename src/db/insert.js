@@ -56,7 +56,7 @@ function generalQuery(data){
       ${data.general.card_color},\
       '${data.general.card_flavor}',\
       '${data.general.card_ability}',\
-      '${data.general.card_img}'\
+      '${data.general.card_image}'\
     )`;
 
     connection.query(sql, (err) => {
@@ -70,6 +70,9 @@ function generalQuery(data){
             break;
           case('ER_PARSE_ERROR'):
             console.log(`${data.general.card_id}: ${err.sqlMessage}`);
+            break;
+          case('ER_BAD_FIELD_ERROR'):
+            console.log(`At least one of the fields has an invalid value. ${err.sqlMessage}`);
             break;
           default:
             console.log(`${data.general.card_id}: You have encountered an unique error. No changes have been applied. [${err.code}]`);
