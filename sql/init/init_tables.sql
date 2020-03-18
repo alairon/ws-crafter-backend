@@ -23,10 +23,10 @@ CREATE TABLE IF NOT EXISTS cards_general(
     set_id varchar(8) NOT NULL,
     card_number varchar(8) NOT NULL,
     card_rarity tinyint NOT NULL,
-    card_type boolean,
+    card_type tinyint NOT NULL,
     card_color tinyint NOT NULL,
     card_flavorTxt varchar(512),
-    card_abilityTxt varchar(512),
+    card_abilityTxt varchar(1024),
     card_img varchar(512),
     UNIQUE (card_id)
 );
