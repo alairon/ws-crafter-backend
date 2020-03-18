@@ -1,6 +1,7 @@
 /* Initializes the English (Global) wsCards database with predefined tables */
 USE wsCards_en;
 
+/* Metadata for the set */
 CREATE TABLE IF NOT EXISTS meta(
     set_id varchar(8) PRIMARY KEY NOT NULL,
     set_name varchar(64) NOT NULL,
@@ -22,10 +23,10 @@ CREATE TABLE IF NOT EXISTS cards_general(
     set_id varchar(8) NOT NULL,
     card_number varchar(8) NOT NULL,
     card_rarity tinyint NOT NULL,
-    card_type boolean,
+    card_type tinyint NOT NULL,
     card_color tinyint NOT NULL,
     card_flavorTxt varchar(512),
-    card_abilityTxt varchar(512),
+    card_abilityTxt varchar(1024),
     card_img varchar(512),
     UNIQUE (card_id)
 );

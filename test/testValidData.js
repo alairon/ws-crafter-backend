@@ -4,7 +4,7 @@
 const { expect } = require('chai');
 
 // Functions to be tested
-const { metaCheck, metaValues } = require ('../src/validation/jsonValidation');
+const { metaValidation } = require ('../src/validation/jsonValidation');
 
 const validMetaJSON = {
   "set_id": "TST",
@@ -31,22 +31,22 @@ describe('Data Validation', () => {
     // Test A - Examines the JSON when values could be missing
     describe('A) Existence of Data', () => {
       it ('returns 0 when all required fields are present', () => {
-        expect(metaCheck(validMetaJSON)).to.equal(0);
+        expect(metaValidation(validMetaJSON)).to.equal(0);
       });
       it ('returns 1 when nothing is passed in', () => {
-        expect(metaCheck()).to.equal(1);
+        expect(metaValidation()).to.equal(1);
       });
       it ('returns 2 for missing values', () => {
-        expect(metaCheck({})).to.equal(2);
+        expect(metaValidation({})).to.equal(2);
       });
       it ('returns 2 for mistyped values', () => {
-        expect(metaCheck(typoMetaJSON)).to.equal(2);
+        expect(metaValidation(typoMetaJSON)).to.equal(2);
       });
     });
     // Test B - Examines the contents of the JSON
     describe('B) Validity of Metadata', () => {
       it ('returns 0 when all data is valid', () => {
-        expect(metaValues(validMetaJSON)).to.equal(0);
+        expect(metaValidation(validMetaJSON)).to.equal(0);
       });
     });
   });

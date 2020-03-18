@@ -1,27 +1,10 @@
 const { isEmpty, isString, isNumber } = require('./dataValidation');
 
-function metaExistCheck(metaJSON) {
-  const errorArray = [];
-
-  // Fatal errors. Do not continue if any of these requirements fail.
-  if (isEmpty(metaJSON)) return 1;
-
-  // Check for empty/null values in db rows marked as "not null"
-  if (isEmpty(metaJSON.set_id)) errorArray.push ({"Error": "Missing set ID"});
-  if (isEmpty(metaJSON.set_name)) errorArray.push ({"Error": "Missing set name"});
-  if (isEmpty(metaJSON.total_cards)) errorArray.push ({"Error": "Missing total number of cards"});
-  if (isEmpty(metaJSON.release_date)) errorArray.push ({"Error": "Missing release date"});
-
-  // Return the array of errors, if any. Return 0 otherwise.
-  if (errorArray.length !== 0) return 2;
-  return 0;
-}
-
-function metaValueCheck(metaJSON) {
+function metaCheck(metaJSON) {
   const errorArray = [];
 
   // If the JSON isn't valid, stop processing.
-  if (metaExistCheck(metaJSON) == 1) return 1;
+  if (isEmpty(metaJSON)) return 1;
 
   if (!isString(metaJSON.set_id)) errorArray.push ({"Error": "Set ID requires a string"});
   if (!isString(metaJSON.set_name)) errorArray.push ({"Error": "Set Name requires a string"});
@@ -106,20 +89,19 @@ function climaxCheck(json) {
 
 function cardValidation(cardData) {
   generalCheck(cardData.general);
-  console.log(`Checking the validity of ${cardData.general.en_name} (${cardData.general.card_id})`)
+  console.log(`Checking ${cardData.general.en_name} (${cardData.general.card_id})`)
 
   const cardType = cardData.general.card_type;
-  console.log(`Determined ${cardData.general.card_id} as a(n) ${cardType} card`);
 
   switch(cardType){
-    case 'character':
-      console.log(characterCheck(cardData.character));
+    case 0:
+      characterCheck(cardData.character);
       break;
-    case 'event':
-      console.log(eventCheck(cardData.event));
+    case 1:
+      eventCheck(cardData.event);
       break;
-    case 'climax':
-      console.log(climaxCheck(cardData.climax));
+    case 2:
+      climaxCheck(cardData.climax);
       break;
     default:
       console.log("This isn't a valid card");
@@ -128,6 +110,5 @@ function cardValidation(cardData) {
   return 0;
 }
 
-exports.metaCheck = metaExistCheck;
-exports.metaValues = metaValueCheck;
+exports.metaValidation = metaCheck;
 exports.cardValidation = cardValidation;
