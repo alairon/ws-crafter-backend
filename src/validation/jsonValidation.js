@@ -1,35 +1,18 @@
-const { isEmpty, isUndefined, isString, isNumber } = require('./dataValidation');
+const { isEmpty, isString, isNumber } = require('./dataValidation');
 
-function metaExistCheck(metaJSON) {
-  const errorArray = [];
-
-  // Fatal errors. Do not continue if any of these requirements fail.
-  if (isEmpty(metaJSON)) return 1;
-
-  // Check for empty/null values in db rows marked as "not null"
-  if (isEmpty(metaJSON.set_id)) errorArray.push ({"Error": "Missing set ID"});
-  if (isEmpty(metaJSON.set_name)) errorArray.push ({"Error": "Missing set name"});
-  if (isEmpty(metaJSON.total_cards)) errorArray.push ({"Error": "Missing total number of cards"});
-  if (isEmpty(metaJSON.release_date)) errorArray.push ({"Error": "Missing release date"});
-
-  // Return the array of errors, if any. Return 0 otherwise.
-  if (errorArray.length !== 0) return 2;
-  return 0;
-}
-
-function metaValueCheck(metaJSON) {
+function metaCheck(metaJSON) {
   const errorArray = [];
 
   // If the JSON isn't valid, stop processing.
-  if (metaExistCheck(metaJSON) == 1) return 1;
+  if (isEmpty(metaJSON)) return 1;
 
   if (!isString(metaJSON.set_id)) errorArray.push ({"Error": "Set ID requires a string"});
   if (!isString(metaJSON.set_name)) errorArray.push ({"Error": "Set Name requires a string"});
-  if (!isNumber(metaJSON.set_number)) errorArray.push ({"Error": "Set Number requires an integer"});
+  if (!isString(metaJSON.series_set)) errorArray.push({"Error": "Missing series set name"});
   if (!isNumber(metaJSON.total_cards)) errorArray.push ({"Error": "Total number of Cards requires an integer"});
 
   // Return the array of errors, if any. Return 0 otherwise.
-  if (errorArray.length !== 0) return errorArray;
+  if (errorArray.length !== 0) return 2;
   return 0;
 }
 
@@ -55,14 +38,14 @@ function generalCheck(json) {
 }
 
 // Simple check for characters
-function charCheck(json) {
+function characterCheck(json) {
   const errorArray = [];
 
   // Fatal errors. Do not continue if any of these requirements fail.
   if (isEmpty(json)) return 1;
   
   // Check for empty/null values in db rows marked as "not null"
-  if (isEmpty(json.card_id)) errorArray.push({"Error": "Missing card ID"});
+  if (!isString(json.card_id)) errorArray.push({"Error": "Missing card ID"});
   if (isEmpty(json.card_level)) errorArray.push({"Error": "Missing card's level"});
   if (isEmpty(json.card_cost)) errorArray.push({"Error": "Missing card's cost"});
   if (isEmpty(json.card_power)) errorArray.push({"Error": "Missing card's power"});
@@ -81,9 +64,9 @@ function eventCheck(json) {
   if (isEmpty(json)) return 1;
   
   // Check for empty/null values in db rows marked as "not null"
-  if (isEmpty(json.card_id)) errorArray.push({"Error": "Missing card ID"});
-  if (isEmpty(json.card_level)) errorArray.push({"Error": "Missing card's level"});
-  if (isEmpty(json.card_cost)) errorArray.push({"Error": "Missing card's cost"});
+  if (!isString(json.card_id)) errorArray.push({"Error": "Missing card ID"});
+  if (!isNumber(json.card_level)) errorArray.push({"Error": "Missing card's level"});
+  if (!isNumber(json.card_cost)) errorArray.push({"Error": "Missing card's cost"});
 
   // Return the array of errors, if any. Return 0 otherwise.
   if (errorArray.length !== 0) return 2;
@@ -104,9 +87,28 @@ function climaxCheck(json) {
   return 0;
 }
 
-exports.metaCheck = metaExistCheck;
-exports.metaValues = metaValueCheck;
-exports.generalCheck = generalCheck;
-exports.charCheck = charCheck;
-exports.eventCheck = eventCheck;
-exports.climaxCheck = climaxCheck;
+function cardValidation(cardData) {
+  generalCheck(cardData.general);
+  console.log(`Checking ${cardData.general.en_name} (${cardData.general.card_id})`)
+
+  const cardType = cardData.general.card_type;
+
+  switch(cardType){
+    case 0:
+      characterCheck(cardData.character);
+      break;
+    case 1:
+      eventCheck(cardData.event);
+      break;
+    case 2:
+      climaxCheck(cardData.climax);
+      break;
+    default:
+      console.log("This isn't a valid card");
+  }
+
+  return 0;
+}
+
+exports.metaValidation = metaCheck;
+exports.cardValidation = cardValidation;
