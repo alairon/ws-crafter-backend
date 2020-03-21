@@ -2,7 +2,7 @@
 
 const express = require('express');
 const mysql = require('mysql');
-const { openConnection } = require('./db/dbOperations');
+const path = require('path');
 const mysqlConfig = require('./sql/credentials.json');
 
 const connection = mysql.createConnection({
@@ -18,8 +18,8 @@ const port = 3000;
 
 let count = 0;
 
-const readReq = (res, query) => {
-  openConnection(connection);
+const readReq = (res) => {
+  let query = 'SELECT * from cards_general';
   connection.query(query, (err, results) => {
     if (err) res.status(404).send(`There was an error with your request: ${err.sqlMessage}`);
     res.send(results);
@@ -28,7 +28,13 @@ const readReq = (res, query) => {
 
 app.get('/', (req, res) => {
   console.log('Session requested');
-  res.send('Connection Sucessful');
+  res.send('Connection Successful');
+});
+
+app.use('/insert', express.static(path.join(__dirname, 'src/tools/')));
+app.get('/dev/insert', (req, res) => {
+  console.log('Writing Requested');
+  res.sendFile(path.join(__dirname, 'src/tools', 'dataCreation.html'));
 });
 
 app.get('/test', (req, res) => {
