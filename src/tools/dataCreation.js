@@ -14,6 +14,14 @@ function postData(data){
   };
 }
 
+function extractCardNo(cardID){
+  const numRegex = /(?<=-)([a-z]{0,2}?\d{1,4}[a-z]{0,2}?)$/gmi;
+  const match = cardID.match(numRegex);
+
+  if (match === null) document.getElementById('cardNumber').value = '';
+  document.getElementById('cardNumber').value = match;
+}
+
 function saveData(){
   let data = [];
   data.push({"meta": {
@@ -29,12 +37,14 @@ function saveData(){
     "card_id": document.getElementById('cardID').value,
     "en_name": document.getElementById('enName').value,
     "jp_name": document.getElementById('jpName').value,
+    "set_id": document.getElementById('setID').value,
     "card_number": document.getElementById('cardNumber').value,
     "card_rarity": parseInt(document.getElementById('cardRarity').value),
     "card_type": parseInt(document.getElementById('cardType').value),
     "card_color": parseInt(document.getElementById('cardColor').value),
     "card_flavor": document.getElementById('flavorText').value,
-    "card_ability": document.getElementById('abilityText').value
+    "card_ability": document.getElementById('abilityText').value,
+    "card_img": null
   },
   "character": {
     "card_level": parseInt(document.getElementById('charLevel').value),
@@ -58,6 +68,21 @@ function saveData(){
 
   // Create a POST request to the API with this
   postData(data);
+
+  // Clear most of the form for the next entry
+  clearCard();
+}
+
+function clearCard(){
+  const clearString = ['enName', 'jpName', 'cardType', 'cardRarity', 'cardColor', 'flavorText', 'abilityText', 'charPower', 'trait1', 'trait2'];
+  const clearNum = ['charLevel', 'charCost', 'charIcon', 'charSoul', 'eventLevel', 'eventCost', 'eventIcon', ];
+  const clearTrigger = ['charTrigger', 'eventTrigger', 'cxTrigger'];
+
+  for (let e in clearString) { document.getElementById(`${clearString[e]}`).value = ''}
+  for (let e in clearNum) { document.getElementById(`${clearNum[e]}`).value = 0}
+  for (let e in clearTrigger) { document.getElementById(`${clearTrigger[e]}`).value = 'null' }
+
+  typeChange();
 }
 
 /* Shows specific sections of the form depending on what the user selected as the card type */

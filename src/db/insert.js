@@ -5,6 +5,7 @@ const { readFile } = require('fs');
 const { importCardList } = require('../files/getContents');
 const jsonValidation = require('../validation/jsonValidation');
 
+/* Gather the credentials with write permissions */
 const connection = mysql.createConnection({
   host: mysqlConfig.write.host,
   user: mysqlConfig.write.user,
@@ -12,13 +13,22 @@ const connection = mysql.createConnection({
   database: mysqlConfig.write.database,
 });
 
+/* Escapes apostrophe characters */
+/* Returns the original string if it doesn't have an apostrophe */
+function sqlEscape(string){
+  const apoRegex = /['']/gmi;
+  console.log(string);
+  return (string.replace(apoRegex, "''"));
+}
+
+/* Constructs and inserts a query into the Meta table */
 function metaQuery(data){
   const sql = `INSERT INTO meta VALUES(
-    '${data.meta.set_id}',
-    '${data.meta.set_name}',
+    '${sqlEscape(data.meta.set_id)}',
+    '${sqlEscape(data.meta.set_name)}',
     ${data.meta.set_number},
     ${data.meta.set_side},
-    '${data.meta.series_set}',
+    '${sqlEscape(data.meta.series_set)}',
     ${data.meta.total_cards},
     '${data.meta.release_date}'
   )`;
@@ -44,19 +54,20 @@ function metaQuery(data){
   return 0;
 }
 
+/* Constructs and inserts a query into the General table */
 function generalQuery(data){
   const sql = `INSERT INTO cards_general VALUES(\
-      '${data.general.card_id}',\
-      '${data.general.en_name}',\
-      '${data.general.jp_name}',\
-      '${data.general.set_id}',\
-      '${data.general.card_number}',\
+      '${sqlEscape(data.general.card_id)}',\
+      '${sqlEscape(data.general.en_name)}',\
+      '${sqlEscape(data.general.jp_name)}',\
+      '${sqlEscape(data.general.set_id)}',\
+      '${sqlEscape(data.general.card_number)}',\
       ${data.general.card_rarity},\
       ${data.general.card_type},\
       ${data.general.card_color},\
-      '${data.general.card_flavor}',\
-      '${data.general.card_ability}',\
-      '${data.general.card_image}'\
+      '${sqlEscape(data.general.card_flavor)}',\
+      '${sqlEscape(data.general.card_ability)}',\
+      '${sqlEscape(data.general.card_image)}'\
     )`;
 
     connection.query(sql, (err) => {
@@ -98,17 +109,18 @@ function generalQuery(data){
     });
 }
 
+/* Constructs and inserts a query into the Character table */
 function characterQuery(data){
   const sql = `INSERT INTO cards_character VALUES(\
-    '${data.character.card_id}',\
+    '${sqlEscape(data.character.card_id)}',\
     ${data.character.card_level},\
     ${data.character.card_cost},\
     ${data.character.card_icon},\
     ${data.character.card_power},\
     ${data.character.card_soul},\
     ${data.character.card_trigger},\
-    '${data.character.card_trait1}',\
-    '${data.character.card_trait2}'\
+    '${sqlEscape(data.character.card_trait1)}',\
+    '${sqlEscape(data.character.card_trait2)}'\
   )`;
 
   connection.query(sql, (err) => {
@@ -133,9 +145,10 @@ function characterQuery(data){
   });
 }
 
+/* Constructs and inserts a query into the Event table */
 function eventQuery(data){
   const sql = `INSERT INTO cards_event VALUES(\
-    '${data.event.card_id}',\
+    '${sqlEscape(data.event.card_id)}',\
     ${data.event.card_level},\
     ${data.event.card_cost},\
     ${data.event.card_icon},\
@@ -164,9 +177,10 @@ function eventQuery(data){
   });
 }
 
+/* Constructs and inserts a query into the Climax table */
 function climaxQuery(data){
   const sql = `INSERT INTO cards_climax VALUES(\
-    '${data.climax.card_id}',\
+    '${sqlEscape(data.climax.card_id)}',\
     ${data.climax.card_trigger}\
   )`;
 
@@ -192,6 +206,7 @@ function climaxQuery(data){
   });
 }
 
+/* Entry point for inserting data */
 function insert(rootDir){
   const fileList = importCardList(rootDir);
   let dir = rootDir;

@@ -46,10 +46,10 @@
       <h2>General</h2>
       <div class="formSection">
         <label for="cardID">Card ID</label>
-        <input id="cardID" type="text" name="cardID" placeholder="GBS/S63-E001">
+        <input id="cardID" type="text" name="cardID" oninput="extractCardNo(this.value)" placeholder="GBS/S63-E001">
 
         <label for="cardNumber">Card Number</label>
-        <input id="cardNumber" type="text" name="cardNumber" placeholder="001">
+        <input id="cardNumber" type="text" name="cardNumber" placeholder="E001">
       </div>
 
       <div class="formSection">
