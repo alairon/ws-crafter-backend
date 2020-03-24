@@ -4,6 +4,7 @@ const mysql = require('mysql');
 const path = require('path');
 const bodyParser = require('body-parser');
 const mysqlConfig = require('./sql/credentials.json');
+const { createFile } = require('./src/files/writeFile');
 
 const connection = mysql.createConnection({
   host: mysqlConfig.read.host,
@@ -35,7 +36,7 @@ app.get('/', (req, res) => {
   res.send('Connection Successful');
 });
 
-app.get('/dev/insert', (req, res) => {
+app.get('/insert', (req, res) => {
   console.log('[INSERT] Database insertion form requested');
   res.sendFile(path.join(__dirname, 'src/tools', 'index.html'));
 });
@@ -43,6 +44,7 @@ app.get('/dev/insert', (req, res) => {
 app.post('/insert', (req, res) => {
   console.log('[INSERT] Database file received');
   console.log(req.body);
+  createFile(req.body[0]);
   res.send('Request acknowledged');
 });
 
