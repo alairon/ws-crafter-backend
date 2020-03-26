@@ -1,4 +1,3 @@
-/* eslint-disable no-restricted-syntax */
 const mysql = require('mysql');
 const mysqlConfig = require('../../sql/credentials.json');
 const { readFile } = require('fs');
@@ -17,7 +16,6 @@ const connection = mysql.createConnection({
 /* Returns the original string if it doesn't have an apostrophe */
 function sqlEscape(string){
   const apoRegex = /['']/gmi;
-  console.log(string);
   return (string.replace(apoRegex, "''"));
 }
 
@@ -67,7 +65,7 @@ function generalQuery(data){
       ${data.general.card_color},\
       '${sqlEscape(data.general.card_flavor)}',\
       '${sqlEscape(data.general.card_ability)}',\
-      '${sqlEscape(data.general.card_image)}'\
+      '${data.general.card_img}'\
     )`;
 
     connection.query(sql, (err) => {
