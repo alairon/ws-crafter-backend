@@ -19,8 +19,7 @@ const port = 3000;
 
 let count = 0;
 
-const readReq = (res) => {
-  let query = 'SELECT * from cards_general';
+const readReq = (res, query) => {
   connection.query(query, (err, results) => {
     if (err) res.status(404).send(`There was an error with your request: ${err.sqlMessage}`);
     res.json(results);
@@ -32,28 +31,32 @@ app.use(bodyParser.json());
 app.use('/insert', express.static(path.join(__dirname, 'src/tools/')));
 
 app.get('/', (req, res) => {
-  console.log('Session requested');
+  console.log(`[HOME] Request ${count += 1}`);
   res.send('Connection Successful');
 });
 
 app.get('/insert', (req, res) => {
-  console.log('[INSERT] Database insertion form requested');
+  console.log(`[INSERT] Request ${count += 1}`);
   res.sendFile(path.join(__dirname, 'src/tools', 'index.html'));
 });
 
 app.post('/insert', (req, res) => {
-  console.log('[INSERT] Database file received');
-  console.log(req.body);
+  console.log(`[INSERT] Request ${count += 1}`);
   createFile(req.body[0]);
-  res.send('Request acknowledged');
+  res.send('Request complete');
 });
 
-app.get('/test', (req, res) => {
-  console.log('Test requested');
-  console.log(`[TEST] Request received ${count += 1} times this session.`);
-  const query = 'SELECT * from cards_general';
+app.get('/cards', (req, res) => {
+  console.log(`[CARDS] Request ${count += 1}`);
+  const query = 'SELECT * from meta JOIN cards_general ON meta.set_id = cards_general.set_id';
   readReq(res, query);
 });
+
+app.get('/dump', (req, res) => {
+  console.log(`[DUMP] Request ${count += 1}`);
+  const query = 'SELECT * from meta';
+  readReq(res, query);
+})
 
 app.listen((port), () => {
   console.log(`Listening to port: ${port}`);
