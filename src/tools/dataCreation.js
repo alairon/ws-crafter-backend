@@ -47,6 +47,7 @@ function saveData(){
     "card_img": null
   },
   "character": {
+    "card_id": document.getElementById('cardID').value,
     "card_level": parseInt(document.getElementById('charLevel').value),
     "card_cost": parseInt(document.getElementById('charCost').value),
     "card_icon": parseInt(document.getElementById('charIcon').value),
@@ -57,12 +58,14 @@ function saveData(){
     "card_trait2": document.getElementById('trait2').value
   },
   "event": {
+    "card_id": document.getElementById('cardID').value,
     "card_level": parseInt(document.getElementById('eventLevel').value),
     "card_cost": parseInt(document.getElementById('eventCost').value),
     "card_icon": parseInt(document.getElementById('eventIcon').value),
     "card_trigger": parseInt(document.getElementById('eventTrigger').value)
   },
   "climax": {
+    "card_id": document.getElementById('cardID').value,
     "card_trigger": parseInt(document.getElementById('cxTrigger').value)
   }});
 
@@ -73,6 +76,7 @@ function saveData(){
   clearCard();
 }
 
+/* Clears the fields necessary for the next card with minimal re-entry of data */
 function clearCard(){
   const clearString = ['enName', 'jpName', 'cardType', 'cardRarity', 'cardColor', 'flavorText', 'abilityText', 'charPower', 'trait1', 'trait2'];
   const clearNum = ['charLevel', 'charCost', 'charIcon', 'charSoul', 'eventLevel', 'eventCost', 'eventIcon', ];
@@ -108,7 +112,7 @@ function typeChange(){
     event.hidden = true;
     cx.hidden = false;
   }
-  else{
+  else {
     char.hidden = true;
     event.hidden = true;
     cx.hidden = true;
