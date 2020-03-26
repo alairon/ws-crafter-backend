@@ -43,7 +43,7 @@ function generateCard(data){
       cardJSON['climax'] = data.climax;
       break;
     default:
-      console.log('Something got through the checks');
+      console.log("This isn't a valid card.");
   }
 
   return cardJSON;
@@ -59,19 +59,32 @@ function write(data){
 
 
   writeFile(path.join(dataLocation, data.meta.set_id, 'meta.json'), JSON.stringify(metaObject, null, 2), {'flag': 'wx'}, (err) => {
-    if (err) console.error (`[WRITE ERROR]: ${err.code}`)
+    if (err) {
+      if (err.code !== 'EEXIST') console.error (`[WRITE ERROR]: ${err.code}`);
+    }
   });
   writeFile(path.join(dataLocation, data.meta.set_id, 'cards', cardFileName), JSON.stringify(cardObject, null, 2), {'flag': 'wx'}, (err) => {
-    if (err) console.error (`[WRITE ERROR]: ${err.code}`)
-    console.log('File created');
+    if (err) {
+      console.error (`[WRITE ERROR]: ${err.code}`);
+      console.log('The file could not be created');
+    }
+    else {
+      console.log(`${cardFileName} successfully created`);
+    }
+    console.log('Operation Completed');
   });
   return;
 }
 
 function createFile(data){
   // Validate the contents
-  validate.metaValidation(data.meta);
-  validate.cardValidation(data);
+  const metaCheck = validate.metaValidation(data.meta);
+  const dataCheck = validate.cardValidation(data);
+
+  if (metaCheck !== 0 || dataCheck !== 0) {
+    console.log('There were errors with the data. No action will be performed.');
+    return 1;
+  }
 
   // Create the necessary directories
   createDirectory(data.meta.set_id);
