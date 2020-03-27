@@ -1,8 +1,8 @@
-
 const express = require('express');
 const mysql = require('mysql');
 const path = require('path');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 const mysqlConfig = require('./sql/credentials.json');
 const { createFile } = require('./src/files/writeFile');
 
@@ -26,7 +26,6 @@ const readReq = (res, query) => {
   });
 };
 
-// app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json());
 app.use('/insert', express.static(path.join(__dirname, 'src/tools/')));
 
@@ -35,12 +34,12 @@ app.get('/', (req, res) => {
   res.send('Connection Successful');
 });
 
-app.get('/insert', (req, res) => {
+app.get('/api/insert', (req, res) => {
   console.log(`[INSERT] Request ${count += 1}`);
   res.sendFile(path.join(__dirname, 'src/tools', 'index.html'));
 });
 
-app.post('/insert', (req, res) => {
+app.post('/insert', cors(), (req, res) => {
   console.log(`[INSERT] Request ${count += 1}`);
   createFile(req.body[0]);
   res.send('Request complete');
