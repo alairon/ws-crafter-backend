@@ -14,6 +14,7 @@ function parseList (fileList){
   return fileList;
 }
 
+/* Gets the list of files in a directory */
 function getFiles (dir) {
   let fileList, parsedList;
   try {
@@ -29,8 +30,10 @@ function getFiles (dir) {
   return (parsedList);
 } 
 
+/* Gets the meta.json file */
 function getMeta (rootDir){
   let fileList;
+  // Regex to find 'meta.json' exactly
   const metaRegex = /^meta\.json$/mi;
 
   try {
@@ -39,20 +42,22 @@ function getMeta (rootDir){
     fileList = null;
   }
 
+  // Return the meta.json file
   for (let i = 0; i < fileList.length; i++) {
     if (metaRegex.test(fileList[i])) {
       return fileList.splice(i, 1);
     }
   }
-
+  
+  // If the file wasn't found
   return null;
 }
 
+/* Gets the file location of meta.json and the asssociated card data */
 function importCardList (rootDir) {
   const dir = rootDir + "/cards";
   const errorArray = [];
   let meta, list;
-  let completeList;
 
   console.log (`Importing metadata from: ${resolve(rootDir)}`);
   meta = getMeta(rootDir);
@@ -77,8 +82,7 @@ function importCardList (rootDir) {
   }
 
   // Merge the two lists together, then return the array of file names
-  completeList = meta.concat(list);
-  return (completeList);
+  return (meta.concat(list));
 }
 
 exports.importCardList = importCardList;
