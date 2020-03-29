@@ -1,0 +1,41 @@
+{
+  "meta": {
+    "valid": {
+      "set_id": "TST",
+      "set_name": "Test Data",
+      "set_number": 1,
+      "set_side": "W",
+      "series_set": "TST MASTER",
+      "total_cards": 1,
+      "release_date": "2020-02-23"
+    },
+    "empty": {},
+    "typo_hyphons": {
+      "set-id": "TST",
+      "set-name": "Test Data",
+      "total-cards": 1,
+      "release-date": "2020-02-23"
+    },
+    "invalid_numAsStr": {
+      "set_id": 100,
+      "set_name": 100,
+      "set_number": 1,
+      "set_side": 229,
+      "series_set": 109,
+      "total_cards": 1,
+      "release_date": 2020
+    },
+    "invalid_strAsNum": {
+      "set_id": "OK",
+      "set_name": "OK",
+      "set_number": "ERR",
+      "set_side": "OK",
+      "series_set": "OK",
+      "total_cards": "ERR",
+      "release_date": "2020-02-23"
+    }
+  },
+  "card": {
+    "empty": {}
+  }
+}
