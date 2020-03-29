@@ -3,19 +3,21 @@
 function postData(data){
   const xhr = new XMLHttpRequest();
 
-  xhr.open('POST', 'http://localhost:3000/insert');
+  xhr.open('POST', 'http://localhost:3000/api/cards');
   xhr.setRequestHeader('Content-Type', 'application/json');
   xhr.send(JSON.stringify(data));
 
   xhr.onreadystatechange = () => {
     if (xhr.readyState == 4 && xhr.status == 200) {
       console.log(`[Operation Complete] ${xhr.responseText}`);
+      // Clear most of the form for the next entry
+      clearCard();
     }
   };
 }
 
 function extractCardNo(cardID){
-  const numRegex = /(?<=-)([a-z]{0,2}?\d{1,4}[a-z]{0,2}?)$/gmi;
+  const numRegex = /([a-z]{0,2}\d{1,4}[a-z]{0,2})$/gmi;
   const match = cardID.match(numRegex);
 
   if (match === null) document.getElementById('cardNumber').value = '';
@@ -71,9 +73,6 @@ function saveData(){
 
   // Create a POST request to the API with this
   postData(data);
-
-  // Clear most of the form for the next entry
-  clearCard();
 }
 
 /* Clears the fields necessary for the next card with minimal re-entry of data */
