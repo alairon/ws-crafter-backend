@@ -24,8 +24,10 @@ app.get('/cards', (req, res) => {
 
 /* POST: Receives data to be inserted onto the server */
 app.post('/api/cards/', cors(), (req, res) => {
-  createFile(req.body[0]);
-  res.status(201).send('Request complete');
+  const result = createFile(req.body[0]);
+
+  // Return HTTP 201 (successful entry) or 422 (bad entry)
+  (result == 0) ? res.status(201).send('Request complete'): res.status(422).json(result);
 });
 
 /* API: Gets list of sets available on the server */
