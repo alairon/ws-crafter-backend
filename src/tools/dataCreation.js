@@ -8,7 +8,7 @@ function postData(data){
   xhr.send(JSON.stringify(data));
 
   xhr.onreadystatechange = () => {
-    if (xhr.readyState == 4 && xhr.status == 200) {
+    if (xhr.readyState == 4 && xhr.status == 201) {
       console.log(`[Operation Complete] ${xhr.responseText}`);
       // Clear most of the form for the next entry
       clearCard();
