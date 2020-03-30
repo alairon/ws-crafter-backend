@@ -11,8 +11,7 @@ CREATE TABLE IF NOT EXISTS meta(
     total_cards smallint NOT NULL,
     release_date date NOT NULL,
     UNIQUE (set_id),
-    UNIQUE (set_name),
-    UNIQUE (release_date)
+    UNIQUE (set_name)
 );
 
 /* Shared values among the card types */
