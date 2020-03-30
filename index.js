@@ -7,7 +7,7 @@ const { readReq } = require('./src/db/select');
 const { createFile } = require('./src/files/writeFile');
 
 const app = express();
-const port = 3000;
+const port = process.env.port || 3000;
 
 app.use(bodyParser.json());
 
