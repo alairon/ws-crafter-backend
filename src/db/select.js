@@ -1,11 +1,11 @@
+require('dotenv').config();
 const mysql = require('mysql');
-const mysqlConfig = require('../../sql/credentials.json');
 
 const connection = mysql.createConnection({
-  host: mysqlConfig.read.host,
-  user: mysqlConfig.read.user,
-  password: mysqlConfig.read.password,
-  database: mysqlConfig.read.database,
+  host: process.env.DB_READ_HOST,
+  user: process.env.DB_READ_USER,
+  password: process.env.DB_READ_PASSWORD,
+  database: process.env.DB_READ_DATABASE,
 });
 
 const readReq = (res, query) => {

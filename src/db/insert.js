@@ -1,15 +1,15 @@
+require('dotenv').config();
 const mysql = require('mysql');
-const mysqlConfig = require('../../sql/credentials.json');
 const { readFile } = require('fs');
 const { importCardList } = require('../files/getContents');
 const jsonValidation = require('../validation/jsonValidation');
 
 /* Gather the credentials with write permissions */
 const connection = mysql.createConnection({
-  host: mysqlConfig.write.host,
-  user: mysqlConfig.write.user,
-  password: mysqlConfig.write.password,
-  database: mysqlConfig.write.database,
+  host: process.env.DB_WRITE_HOST,
+  user: process.env.DB_WRITE_USER,
+  password: process.env.DB_WRITE_PASSWORD,
+  database: process.env.DB_WRITE_DATABASE,
 });
 
 /* Escapes apostrophe characters */
