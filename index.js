@@ -10,6 +10,9 @@ const { createFile } = require('./src/files/writeFile');
 const app = express();
 const port = process.env.port || process.env.LOCAL_PORT;
 
+
+let serverReq = 0;
+
 app.use(bodyParser.json());
 
 /* ROOT PAGE: Home page if no parameters are sent */
@@ -27,13 +30,16 @@ app.get('/cards', (req, res) => {
 app.post('/api/cards/', cors(), (req, res) => {
   const result = createFile(req.body[0]);
 
+  console.log(`[POST ${serverReq++}] - /api/cards/`);
   // Return HTTP 201 (successful entry) or 422 (bad entry)
   (result == 0) ? res.status(201).send('Request complete'): res.status(422).json(result);
 });
 
 /* API: Gets list of sets available on the server */
-app.get('/api/cards/', (req, res) => {
+app.get('/api/cards/', cors(), (req, res) => {
   const query = 'SELECT set_id, set_name FROM meta';
+
+  console.log(`[GET ${serverReq++}] - /api/cards/`);
   readReq(res, query);
 });
 
@@ -76,6 +82,8 @@ app.get('/api/cards/:set/:cardNo', (req, res) => {
 
 /* CORE: Alerts the server console that it is ready */
 app.listen((port), () => {
-  console.log(`Listening to port: ${port}`);
+  console.log('Welcome to ws-crafter');
+  console.log(`This server is listening to port: ${port}`);
+  console.log('-----');
   console.log('Ready');
 });
