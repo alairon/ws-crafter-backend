@@ -5,6 +5,7 @@ const { importMeta, importCardList } = require('../files/getContents');
 const util = require('util');
 const jsonValidation = require('../validation/jsonValidation');
 
+// Enable await/promises functionality with fs.readFile
 const readFileAsync = util.promisify(readFile);
 
 /* Gather the credentials with write permissions */
@@ -36,11 +37,11 @@ function sqlError(err, key){
     case('23505'):
       // An entry already exists
       // Normally this isn't an error worth worrying about.
-      console.error(`There is already an entry at ${key}`);
+      // console.error(`There is already an entry at ${key}`);
       break;
     case('25P01'):
       // Transaction-specific operation occured outside of a transaction
-      console.log('A transaction-specific operation occured outside of a transaction');
+      console.error('A transaction-specific operation occured outside of a transaction');
       break;
     default:
       console.error(`[${err.code}] Error at ${err.table}: ${err.message}`);
@@ -54,8 +55,8 @@ function characterQuery(meta, data){
     `${sqlEscape(meta.meta.set_id)}`,
     `${sqlEscape(meta.meta.set_name)}`,
     meta.meta.set_number,
-    meta.set_side,
-    meta.set_type,
+    meta.meta.set_side,
+    meta.meta.set_type,
     `${sqlEscape(meta.meta.series_name)}`,
     meta.meta.total_cards,
     meta.meta.release_date,
@@ -90,8 +91,8 @@ function eventQuery(meta, data){
     `${sqlEscape(meta.meta.set_id)}`,
     `${sqlEscape(meta.meta.set_name)}`,
     meta.meta.set_number,
-    meta.set_side,
-    meta.set_type,
+    meta.meta.set_side,
+    meta.meta.set_type,
     `${sqlEscape(meta.meta.series_name)}`,
     meta.meta.total_cards,
     meta.meta.release_date,
@@ -165,7 +166,6 @@ async function insert(rootDir){
   // Start the process of inserting data
   try {
     await client.query('BEGIN');
-
     // Go through the files from fileList
     for (let i in fileList){
       let contents = await readFileAsync((dir + fileList[i]), 'utf8');
