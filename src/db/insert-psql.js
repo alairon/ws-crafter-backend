@@ -1,8 +1,8 @@
 require('dotenv').config();
-const util = require('util');
 const { Pool } = require('pg');
-const { readFile, readFileSync } = require('fs');
+const { readFile } = require('fs');
 const { importMeta, importCardList } = require('../files/getContents');
+const util = require('util');
 const jsonValidation = require('../validation/jsonValidation');
 
 const readFileAsync = util.promisify(readFile);
@@ -24,7 +24,7 @@ function sqlEscape(string){
 }
 
 /* A function that displays psql error codes */
-function sqlErrors(err, key){
+function sqlError(err, key){
   switch (err.code){
     case('08P01'):
       console.error(`Protocol Violation at ${key}: ${err.message}`);
@@ -152,7 +152,7 @@ async function insert(rootDir){
   }
   
   // Create a persistent meta file
-  const fileContents = readFileSync((rootDir + '/' + metaList), 'utf8');
+  const fileContents = await readFileAsync((rootDir + '/' + metaList), 'utf8');
   const meta = JSON.parse(fileContents);
 
   // Go through the list of cards in the directory
@@ -194,20 +194,25 @@ async function insert(rootDir){
 
         //Perform the actual query
         try {
+          // Create a savepoint, then attempt to execute the query
           await client.query('SAVEPOINT insert_savepoint');
           await client.query(sql[0], sql[1]);
         } catch (err) {
+          // Rollback to before query happened.
           await client.query('ROLLBACK TO insert_savepoint');
-          sqlErrors(err, data.general.card_id);
+          sqlError(err, data.general.card_id);
         } finally {
+          // Remove the savepoint since the query successfully went through
           await client.query('RELEASE SAVEPOINT insert_savepoint');
         }
       }
     }
   } catch (err) {
+    // If there was an error in the transaction, rollback everything
     await client.query('ROLLBACK');
-    throw sqlErrors(err);
+    throw sqlError(err);
   } finally {
+    // Commit the transaction
     await client.query('COMMIT');
     console.log('Database transaction complete.');
     client.release();
