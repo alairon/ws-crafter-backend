@@ -32,7 +32,7 @@ function saveData(){
     "set_number": parseInt(document.getElementById('setNumber').value),
     "set_side": document.getElementById('setSide').value,
     "set_type": document.getElementById('setType').value,
-    "series_name": document.getElementById('seriesSet').value,
+    "series_name": document.getElementById('seriesName').value,
     "total_cards": parseInt(document.getElementById('totalCards').value),
     "release_date": document.getElementById('releaseDate').value
   },
@@ -58,7 +58,8 @@ function saveData(){
     "card_soul": parseInt(document.getElementById('charSoul').value),
     "card_trigger": parseInt(document.getElementById('charTrigger').value),
     "card_trait1": document.getElementById('trait1').value,
-    "card_trait2": document.getElementById('trait2').value
+    "card_trait2": document.getElementById('trait2').value,
+    "card_trait3": document.getElementById('trait3').value
   },
   "event": {
     "card_id": document.getElementById('cardID').value,
@@ -78,7 +79,7 @@ function saveData(){
 
 /* Clears the fields necessary for the next card with minimal re-entry of data */
 function clearCard(){
-  const clearString = ['enName', 'jpName', 'cardType', 'cardRarity', 'cardColor', 'flavorText', 'abilityText', 'charPower', 'trait1', 'trait2'];
+  const clearString = ['enName', 'jpName', 'cardType', 'cardRarity', 'cardColor', 'flavorText', 'abilityText', 'charPower', 'trait1', 'trait2', 'trait3'];
   const clearNum = ['charLevel', 'charCost', 'charIcon', 'charSoul', 'eventLevel', 'eventCost', 'eventIcon', ];
   const clearTrigger = ['charTrigger', 'eventTrigger', 'cxTrigger'];
 
