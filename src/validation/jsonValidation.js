@@ -13,7 +13,7 @@ function metaCheck(metaJSON) {
   // Check validity of data with columns marked as NN in the DB spec.
   if (!isString(metaJSON.set_id)) errorArray.push ({"Error": "Set ID requires a string"});
   if (!isString(metaJSON.set_name)) errorArray.push ({"Error": "Set Name requires a string"});
-  if (!isString(metaJSON.series_set)) errorArray.push({"Error": "Missing series set name"});
+  if (!isString(metaJSON.series_name)) errorArray.push({"Error": "Missing series set name"});
   if (!isSmallInt(metaJSON.total_cards)) errorArray.push ({"Error": "Total number of Cards requires an integer"});
 
   // Return the array of errors, if any. Return 0 otherwise.
@@ -112,7 +112,7 @@ function cardValidation(cardData) {
   if (isEmpty(cardData)) return [{"Error": "Empty data"}];
   
   generalRes = generalCheck(cardData.general);
-  console.log(`Analyzing: ${cardData.general.en_name} (${cardData.general.card_id})`)
+  // console.log(`Analyzing: ${cardData.general.en_name} (${cardData.general.card_id})`)
   const cardType = cardData.general.card_type;
   
   switch(cardType){
