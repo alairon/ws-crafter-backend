@@ -31,7 +31,8 @@ function saveData(){
     "set_name": document.getElementById('setName').value,
     "set_number": parseInt(document.getElementById('setNumber').value),
     "set_side": document.getElementById('setSide').value,
-    "series_set": document.getElementById('seriesSet').value,
+    "set_type": document.getElementById('setType').value,
+    "series_name": document.getElementById('seriesSet').value,
     "total_cards": parseInt(document.getElementById('totalCards').value),
     "release_date": document.getElementById('releaseDate').value
   },
