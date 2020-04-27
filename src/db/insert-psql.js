@@ -1,6 +1,6 @@
 require('dotenv').config();
 const util = require('util');
-const { Pool, Client } = require('pg');
+const { Pool } = require('pg');
 const { readFile, readFileSync } = require('fs');
 const { importMeta, importCardList } = require('../files/getContents');
 const jsonValidation = require('../validation/jsonValidation');
@@ -140,100 +140,8 @@ function climaxQuery(meta, data){
   return [sqlQuery, sqlParams];
 }
 
-/* Entry point */
-function insert(rootDir){
-  const metaList = importMeta(rootDir);
-  const fileList = importCardList(rootDir);
-  let fileContents;
-
-  if (metaList[0] == 10 || fileList[0] == 11){
-    console.log('There were issues with the folder structure.');
-    console.log('No actions have been performed.');
-    return;
-  }
-  
-  try { 
-    fileContents = readFileSync((rootDir + '/' + metaList), 'utf8');
-  } catch (err) {
-    console.error(`Meta - ${err}`);
-    return;
-  }
-
-  // Persistent meta
-  const meta = JSON.parse(fileContents);
-
-  // Go through the list of cards in the directory
-  const dir = rootDir + '/cards/';
-  let sql;
-
-  // Start inserting data into the DB
-  connection.connect((err, client, done) => {
-    // Rollback function
-    const rollback = (err, key) => {
-      if (err) {
-        sqlErrors(err, key);
-        client.query('ROLLBACK TO SAVEPOINT insert_savepoint', (err) => {
-          if (err) {
-            sqlErrors(err);
-          }
-        });
-      }
-    }
-    if (err) console.error(err);
-
-    // Begin the transaction
-    client.query('BEGIN', (err) => {
-      if (err) console.error(err);
-      
-      // Go through the files from fileList
-      for (let i in fileList){
-        readFile((dir + fileList[i]), 'utf8', (err, contents) => {
-          if (err) throw err.code;
-  
-          const data = JSON.parse(contents);
-          const returnCode = jsonValidation.cardValidation(data);
-  
-          // Insert the data based on the card type IF there were no errors
-          if (returnCode == 0){
-            switch(data.general.card_type){
-              // Character Query
-              case(0):
-                sql = characterQuery(meta, data);
-                break;
-              // Event Query
-              case(1):
-                sql = eventQuery(meta, data);
-                break;
-              // Climax Query
-              case(2):
-                sql = climaxQuery(meta, data);
-                break;
-              // Safety net if the check failed to catch an invalid card type
-              default:
-                console.log(`${data.general.card_id} has an unexpected card type.`);
-            }
-
-            //Perform the actual query
-            client.query(sql[0], sql[1], (err) => {
-              rollback(err, data.general.card_id);
-              client.query('SAVEPOINT insert_save', (err) => {
-                rollback(err, data.general.card_id);
-              });
-            });
-          }
-        });
-      }
-      client.query('COMMIT', (err) => {
-        if (err) console.error(`Cannot commit: ${err}`);
-        console.log('Database transaction complete.')
-        done();
-      });
-    });
-  });
-}
-
 /* Entry point - Enhanced version */
-async function insert_async(rootDir){
+async function insert(rootDir){
   const metaList = importMeta(rootDir);
   const fileList = importCardList(rootDir);
 
@@ -243,18 +151,18 @@ async function insert_async(rootDir){
     return;
   }
   
+  // Create a persistent meta file
   const fileContents = readFileSync((rootDir + '/' + metaList), 'utf8');
-  
-
-  // Persistent meta
   const meta = JSON.parse(fileContents);
 
   // Go through the list of cards in the directory
   const dir = rootDir + '/cards/';
   let sql;
 
+  // Connect to the server
   const client = await connection.connect();
 
+  // Start the process of inserting data
   try {
     await client.query('BEGIN');
 
@@ -307,4 +215,3 @@ async function insert_async(rootDir){
 }
 
 exports.insert = insert;
-exports.insert2 = insert_async;
