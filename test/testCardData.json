@@ -5,7 +5,7 @@
       "set_name": "Test Data",
       "set_number": 1,
       "set_side": "W",
-      "series_set": "TST MASTER",
+      "series_name": "TST MASTER",
       "total_cards": 1,
       "release_date": "2020-02-23"
     },
@@ -21,7 +21,7 @@
       "set_name": 100,
       "set_number": 1,
       "set_side": 229,
-      "series_set": 109,
+      "series_name": 109,
       "total_cards": 1,
       "release_date": 2020
     },
@@ -30,7 +30,7 @@
       "set_name": "OK",
       "set_number": "ERR",
       "set_side": "OK",
-      "series_set": "OK",
+      "series_name": "OK",
       "total_cards": "ERR",
       "release_date": "2020-02-23"
     }
