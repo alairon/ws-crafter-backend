@@ -1,4 +1,4 @@
-# Developer-specific folders
+# Developer-specific folders and configuration
 .vscode
 .next
 node_modules
@@ -6,5 +6,5 @@ node_modules
 # Untracked card contents to reduce space
 data/*
 
-# Untracked to protect db credentials
-sql/credentials.json
+# Untracked to protect server integrity
+.env

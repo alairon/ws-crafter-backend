@@ -4,7 +4,7 @@
 const { expect } = require('chai');
 
 // Functions to be tested
-const { isNull, isBoolean, isNumber, isString, isValidDate, isUndefined } = require('../src/validation/dataValidation');
+const { isNull, isBoolean, isTinyInt, isSmallInt, isInt, isString, isValidDate, isUndefined } = require('../src/validation/dataValidation');
 
 // Generic test data. Not to be used if testing for a specific data type.
 const num = 10;
@@ -81,47 +81,128 @@ describe('Value Validation', () => {
   });
 
   
-  describe('3) Function: isNumber()', () => {
-    context('A) Valid Values', () => {
-      it('0 (zero) returns true', () => {
-        expect(isNumber(0)).to.equal(true);
-      });
-      it('10 (postive number) returns true', () => {
-        expect(isNumber(10)).to.equal(true);
-      });
-      it('10.01 (positive decimal) returns true', () => {
-        expect(isNumber(10.01)).to.equal(true);
-      });
-      it('-10 (negative number) returns true', () => {
-        expect(isNumber(-10)).to.equal(true);
-      });
-      it('-10.01 (negative decimal) returns true', () => {
-        expect(isNumber(-10.01)).to.equal(true);
-      });
-    });
-    context('B) Empty Values', () => {
+  describe('3) Functions: SQL Number Limits', () => {
+    context('A) TINYINT (Max: 127)', () => {
       it('nothing passed in returns false', () => {
-        expect(isNumber()).to.equal(false);
-      });    
+        expect(isTinyInt()).to.equal(false);
+      });
       it('null returns false', () => {
-        expect(isNumber(null)).to.equal(false);
+        expect(isTinyInt(null)).to.equal(false);
       });
       it('undefined returns false', () => {
-        expect(isNumber(undefined)).to.equal(false);
+        expect(isTinyInt(undefined)).to.equal(false);
       });
-    });
-    context('C) Invalid Values', () => {
       it('boolean returns false', () => {
-        expect(isNumber(true)).to.equal(false);
+        expect(isTinyInt(true)).to.equal(false);
       });
       it('NaN (not a number) returns false', () => {
-        expect(isNumber(NaN)).to.equal(false);
+        expect(isTinyInt(NaN)).to.equal(false);
       });
       it(`"${str}" (string) returns false`, () => {
-        expect(isNumber(str)).to.equal(false);
+        expect(isTinyInt(str)).to.equal(false);
       });
       it('An object is returns false', () => {
-        expect(isNumber(obj)).to.equal(false);
+        expect(isTinyInt(obj)).to.equal(false);
+      });
+      it('0 (zero) returns true', () => {
+        expect(isTinyInt(0)).to.equal(true);
+      });
+      it('127 returns true', () => {
+        expect(isTinyInt(127)).to.equal(true);
+      });
+      it('128 (max +1) returns false', () => {
+        expect(isTinyInt(128)).to.equal(false);
+      });
+      it('-1 (imposed min of 0 -1) returns false', () => {
+        expect(isTinyInt(-1)).to.equal(false);
+      });
+      it('10.01 (positive decimal) returns false', () => {
+        expect(isTinyInt(10.01)).to.equal(false);
+      });
+      it('-10.01 (negative decimal) returns false', () => {
+        expect(isTinyInt(-10.01)).to.equal(false);
+      });
+    });
+    context('B) SMALLINT (Max: 32767)', () => {
+      it('nothing passed in returns false', () => {
+        expect(isSmallInt()).to.equal(false);
+      });
+      it('null returns false', () => {
+        expect(isSmallInt(null)).to.equal(false);
+      });
+      it('undefined returns false', () => {
+        expect(isSmallInt(undefined)).to.equal(false);
+      });
+      it('boolean returns false', () => {
+        expect(isSmallInt(true)).to.equal(false);
+      });
+      it('NaN (not a number) returns false', () => {
+        expect(isSmallInt(NaN)).to.equal(false);
+      });
+      it(`"${str}" (string) returns false`, () => {
+        expect(isSmallInt(str)).to.equal(false);
+      });
+      it('An object is returns false', () => {
+        expect(isSmallInt(obj)).to.equal(false);
+      });
+      it('0 (zero) returns true', () => {
+        expect(isSmallInt(0)).to.equal(true);
+      });
+      it('32767 returns true', () => {
+        expect(isSmallInt(32767)).to.equal(true);
+      });
+      it('32768 (max +1) returns false', () => {
+        expect(isSmallInt(32768)).to.equal(false);
+      });
+      it('-1 (imposed min of 0 -1) returns false', () => {
+        expect(isSmallInt(-1)).to.equal(false);
+      });
+      it('10.01 (positive decimal) returns false', () => {
+        expect(isSmallInt(10.01)).to.equal(false);
+      });
+      it('-10.01 (negative decimal) returns false', () => {
+        expect(isSmallInt(-10.01)).to.equal(false);
+      });
+    });
+    context('C) isInt (Max: 2147483647)', () => {
+      it('nothing passed in returns false', () => {
+        expect(isInt()).to.equal(false);
+      });
+      it('null returns false', () => {
+        expect(isInt(null)).to.equal(false);
+      });
+      it('undefined returns false', () => {
+        expect(isInt(undefined)).to.equal(false);
+      });
+      it('boolean returns false', () => {
+        expect(isInt(true)).to.equal(false);
+      });
+      it('NaN (not a number) returns false', () => {
+        expect(isInt(NaN)).to.equal(false);
+      });
+      it(`"${str}" (string) returns false`, () => {
+        expect(isInt(str)).to.equal(false);
+      });
+      it('An object is returns false', () => {
+        expect(isInt(obj)).to.equal(false);
+      });
+      it('0 (zero) returns true', () => {
+        expect(isInt(0)).to.equal(true);
+      });
+      it('2147483647 returns true', () => {
+        expect(isInt(2147483647)).to.equal(true);
+      });
+      it('2147483648 (max +1) returns false', () => {
+        expect(isInt(2147483648)).to.equal(false);
+      });
+      it('-1 (imposed min of 0 -1) returns false', () => {
+        expect(isInt(-1)).to.equal(false);
+      });
+      it('10.01 (positive decimal) returns false', () => {
+        expect(isInt(10.01)).to.equal(false);
+      });
+      it('-10.01 (negative decimal) returns false', () => {
+        expect(isInt(-10.01)).to.equal(false);
       });
     });
   });

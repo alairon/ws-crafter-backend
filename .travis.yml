@@ -3,7 +3,8 @@ dist: bionic
 language: node_js
 node_js: lts/*
 
-services: mysql
+services: postgresql
 
 before_install:
-  - mysql -e 'CREATE DATABASE IF NOT EXISTS test;'
+  - psql -c 'create database cards_en;' -U postgres
+  - psql cards_en < ./sql/psql/init_tables.sql

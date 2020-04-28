@@ -1,3 +1,9 @@
+const intMax = {
+  "TINYINT": 127,
+  "SMALLINT": 32767,
+  "INT": 2147483647
+};
+
 function isNull (object) {
   if (object === null) return true;
   return false;
@@ -10,6 +16,7 @@ function isUndefined (object) {
 
 function isEmpty (object) {
   if (isNull(object) || isUndefined(object)) return true;
+  if (Object.keys(object).length === 0) return true;
   return false;
 }
 
@@ -56,15 +63,40 @@ function isLeapYear (year) {
   return true;
 }
 
+function isNumber (object) {
+  if (isNaN(object) === true) return false;
+  if (object != Math.floor(object)) return false;
+  if (typeof (object) === typeof (2)) {
+    //Check if this is a decimal value. True of it's not
+    return (object == Math.floor(object));
+  }
+  return false;
+}
+
 exports.isObject = function (object) {
   if (typeof (object) === typeof ({})) return true;
   return false;
 }
 
-exports.isNumber = function (object) {
-  if (isNaN(object) === true) return false;
-  if (typeof (object) === typeof (2)) return true;
-  return false;
+exports.isTinyInt = function (object){
+  if (!(isNumber(object))){
+    return false;
+  }
+  return ((object >= 0) && (object <= intMax.TINYINT) ? true : false);
+}
+
+exports.isSmallInt = function (object){
+  if (!(isNumber(object))){
+    return false;
+  }
+  return ((object >= 0) && (object <= intMax.SMALLINT) ? true : false);
+}
+
+exports.isInt = function (object){
+  if (!(isNumber(object))){
+    return false;
+  }
+  return (((object >= 0) && (object <= intMax.INT)) ? true : false);
 }
 
 exports.isBoolean = function (object) {
@@ -116,4 +148,5 @@ exports.isValidDate = function (object) {
 exports.isNull = isNull;
 exports.isUndefined = isUndefined;
 exports.isEmpty = isEmpty;
+exports.isNumber = isNumber;
 exports.isString = isString;

@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8" />
+  <title>WS Crafter Card Creation Tool (EN)</title>
+  <link rel="stylesheet" type="text/css" href="./dataCreation.css" />
+</head>
+<body>
+  <h1>WS Card Creation Tool (EN)</h1>
+  <p>This page is designed for keyboard navigation with tabs.</p>
+  <hr/>
+  <form action="" class="classForm">
+    <div id="meta">
+      <div class="formSection">
+        <h2>Meta</h2>
+        <label for="setID">Set ID</label>
+        <input id="setID" type="text" name="setID" placeholder="FZ, P5, SAO, etc.">
+
+        <label for="setNumber">Set Number</label>
+        <input id="setNumber" type="number" min="0" name="setNumber">
+
+        <label for="setSide">Set Side</label>
+        <select id="setSide">
+          <option value="null">WS</option>
+          <option value="0">W</option>
+          <option value="1">S</option>
+        </select>
+      </div>
+
+      <div class="formSection">
+        <label for="setName">Full Set Name</label>
+        <input id="setName" type="text" name="setName" placeholder="Fate/Zero, Persona 5, Sword Art Online, etc">
+
+        <label for="seriesName">Series Name</label>
+        <input id="seriesName" type="text" name="seriesName" placeholder="Fate, Persona, SAO">
+
+        <label for="setType">Set Type</label>
+        <select id="setType">
+          <option value="0">Booster</option>
+          <option value="1">Extra</option>
+          <option value="2">Trial/TD+</option>
+          <option value="3">Demo</option>
+          <option value="4">WS Promo</option>
+        </select>
+      </div>
+      <div class="formSection">
+        <label for="totalCards">Total Cards in Set</label>
+        <input id="totalCards" type="number" name="totalCards" min="0">
+
+        <label for="releaseDate">Release Date</label>
+        <input id="releaseDate" type="date" name="releaseDate">
+      </div>
+    </div>
+
+    <div id="general">
+      <h2>General</h2>
+      <div class="formSection">
+        <label for="cardID">Card ID</label>
+        <input id="cardID" type="text" name="cardID" oninput="extractCardNo(this.value)" placeholder="GBS/S63-E001">
+
+        <label for="cardNumber">Card Number</label>
+        <input id="cardNumber" type="text" name="cardNumber" placeholder="E001">
+      </div>
+
+      <div class="formSection">
+        <label for="enName">English Name</label>
+        <input id="enName" type="text" name="enName" placeholder="Pride of an Elf, High Elf Archer">
+
+        <label for="jpName">Japanese Name</label>      
+        <input id="jpName" type="text" name="jpName" placeholder="森人の矜持 妖精弓手">
+      </div>
+      
+      <div class="formSection">
+        <label for="cardType">Type</label>
+        <select id="cardType" onchange="typeChange()">
+          <option value="">Select a type</option>
+          <option value="0">Character</option>
+          <option value="1">Event</option>
+          <option value="2">Climax</option>
+        </select>
+
+        <label for="cardRarity">Rarity</label>
+        <select id="cardRarity">
+          <option value="">Select a rarity</option>
+          <option value="0">C</option>
+          <option value="1">U</option>
+          <option value="2">R</option>
+          <option value="3">RR</option>
+          <option value="4">RRR</option>
+          <option value="5">SR</option>
+          <option value="6">SP</option>
+          <option value="7">CC</option>
+          <option value="8">CR</option>
+          <option value="9">PR</option>
+          <option value="10">TD</option>
+          <option value="11">DD</option>
+          <option value="12">RR+</option>
+          <option value="13">XR</option>
+          <option value="14">SSP</option>
+          <option value="15">SEC</option>
+          <option value="16">JJR</option>
+        </select>
+
+        <label for="cardColor">Color</label>
+        <select id="cardColor">
+          <option value="">Select a color</option>
+          <option value="0">Red</option>
+          <option value="1">Green</option>
+          <option value="2">Blue</option>
+          <option value="3">Yellow</option>
+          <option value="4">Purple</option>
+        </select>
+      </div>
+
+      <div class="formSection">
+        <label for="flavorText">Flavor Text</label>
+        <br/>
+        <textarea id="flavorText" maxlength="512" name="cardFlavor" cols="50" rows="2"></textarea>
+      </div>
+      
+      <div class="formSection">
+        <label for ="abilityText">Abilities Text</label>
+        <br/>
+        <textarea id="abilityText" name="cardAbility" cols="50" rows="8"></textarea>
+      </div>
+    </div>
+
+    <div id="character" hidden>
+      <h2>Character</h2>
+      <div class="formSection">
+        <label for="charLevel">Level</label>
+        <select id="charLevel">
+          <option value="0">0</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+        </select>
+
+        <label for="charCost">Cost</label>
+        <select id="charCost">
+          <option value="0">0</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+          <option value="9">9</option>
+        </select>
+
+        <label for="charIcon">Icon</label>
+        <select id="charIcon">
+          <option value="0">None</option>
+          <option value="1">Counter</option>
+          <option value="2">Clock</option>
+        </select>
+      </div>
+      <div class="formSection">
+        <label for="charPower">Power</label>
+        <input id="charPower" type="number" name="cardPower" min="0">
+
+        <label for="charSoul">Soul Count</label>
+        <select id="charSoul">
+          <option value="0">0</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+        </select>
+
+        <label for="charTrigger">Trigger Type</label>
+        <select id="charTrigger">
+          <option value="null">None</option>
+          <option value="0">Soul +1</option>
+        </select>
+      </div>
+      
+      <div class="formSection">
+        <label for="trait1">Trait 1</label>
+        <input id="trait1" type="text" name="cardTrait1">
+        <label for="trait2">Trait 2</label>
+        <input id="trait2" type="text" name="cardTrait2">
+        <label for="trait3">Trait 3</label>
+        <input id="trait3" type="text" name="cardTrait3">
+      </div>
+    </div>
+    <div id="event" hidden>
+      <h2>Event</h2>
+
+      <div class="formSection">
+        <label for="eventLevel">Level</label>
+        <select id="eventLevel">
+          <option value="0">0</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+        </select>
+
+        <label for="eventCost">Cost</label>
+        <select id="eventCost">
+          <option value="0">0</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+          <option value="9">9</option>
+        </select>
+
+        <label for="eventIcon">Icon</label>
+        <select id="eventIcon">
+          <option value="0">None</option>
+          <option value="1">Counter</option>
+          <option value="2">Clock</option>
+        </select>
+
+        <label for="eventTrigger">Trigger Type</label>
+        <select id="eventTrigger">
+          <option value="null">None</option>
+          <option value="0">Soul +1</option>
+        </select>
+      </div>
+    </div>
+    <div id="climax" hidden>
+      <h2>Climax</h2>
+      <div class="formSection">
+        <label for="cxTrigger">Trigger Type</label>
+        <select id="cxTrigger">
+          <option value="null">None</option>
+          <option value="0">Soul +1</option>
+          <option value="1">Soul +2</option>
+          <option value="2">Return (Wind)</option>
+          <option value="3">Pool (Bag)</option>
+          <option value="4">Comeback (Door)</option>
+          <option value="5">Draw (Book)</option>
+          <option value="6">Shot (Burn)</option>
+          <option value="7">Treasure (Bar)</option>
+          <option value="8">Gate</option>
+          <option value="9">Standby</option>
+        </select>
+      </div>
+    </div>
+    </div>
+  </form>
+
+  <br/>
+  <button onclick="saveData()">Generate</button>
+
+  <script src="./dataCreation.js"></script>
+</body>
+</html>
