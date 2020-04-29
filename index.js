@@ -6,6 +6,7 @@ const cors = require('cors');
 
 const { readReq } = require('./src/db/select');
 const { createFile } = require('./src/files/writeFile');
+const { insert } = require('./src/db/insert-psql');
 
 const app = express();
 const port = process.env.port || process.env.LOCAL_PORT;
@@ -22,12 +23,12 @@ app.get('/', (req, res) => {
 
 /* PAGE: Delivers a page for the user to input card data */
 app.use('/cards', express.static(path.join(__dirname, 'src/tools')));
-app.get('/cards', (req, res) => {
+app.get('/cards', cors(), (req, res) => {
   res.sendFile(path.join(__dirname, 'src/tools', 'index.html'));
 });
 
 /* POST: Receives data to be inserted onto the server */
-app.post('/api/cards/', (req, res) => {
+app.post('/api/cards/', cors(), (req, res) => {
   const result = createFile(req.body[0]);
 
   console.log(`[POST ${++serverReq}] - /api/cards/`);
@@ -37,31 +38,14 @@ app.post('/api/cards/', (req, res) => {
 
 /* API: Gets list of sets available on the server */
 app.get('/api/cards/', cors(), (req, res) => {
-  const query = 'SELECT set_id, set_name FROM sets GROUP BY set_id';
+  const query = 'SELECT set_id, card_id, en_name FROM cards';
 
   console.log(`[GET ${++serverReq}] - /api/cards/`);
   readReq(res, query);
 });
 
-/* API: Gets list of sets on the database */
-app.get('/api/sets', (req, res) => {
-  const query = `SELECT * FROM sets GROUP BY set_id`;
-
-  console.log(`[GET ${++serverReq}] - /api/sets/`);
-  readReq(res, query);
-});
-
-/* API: Gets list of cards from a specific set */
-app.get('/api/sets/:set', (req, res) => {
-  const set = req.params.set;
-  const query =  `SELECT * FROM sets WHERE set_id='${set}'`;
-
-  console.log(`[GET ${++serverReq}] - /api/sets/${set}`);
-  readReq(res, query);
-});
-
 /* API: Gets a detailed list of character cards from a specific set */
-app.get('/api/sets/:set/character', (req, res) => {
+app.get('/api/cards/:set/character', (req, res) => {
   const set = req.params.set;
   const query = `SELECT * FROM characters WHERE set_id='${set}'`;
 
@@ -70,7 +54,7 @@ app.get('/api/sets/:set/character', (req, res) => {
 });
 
 /* API: Gets a detailed list of event cards from a specific set */
-app.get('/api/sets/:set/event', (req, res) => {
+app.get('/api/cards/:set/event', (req, res) => {
   const set = req.params.set;
   const query = `SELECT * FROM events WHERE set_id='${set}'`;
 
@@ -79,7 +63,7 @@ app.get('/api/sets/:set/event', (req, res) => {
 });
 
 /* API: Gets a detailed list of climax cards from a specific set */
-app.get('/api/sets/:set/climax', (req, res) => {
+app.get('/api/cards/:set/climax', (req, res) => {
   const set = req.params.set;
   const query = `SELECT * FROM climaxes WHERE set_id='${set}'`;
 
@@ -97,8 +81,29 @@ app.get('/api/cards/:set/:cardNo', (req, res) => {
   readReq(res, query);
 });
 
-app.get('/api/update/:set', (req, res) => {
+/* API: Gets list of sets on the database */
+app.get('/api/sets', (req, res) => {
+  const query = `SELECT set_id, set_name, set_type, series_name FROM sets GROUP BY set_id`;
+
+  console.log(`[GET ${++serverReq}] - /api/sets/`);
+  readReq(res, query);
+});
+
+/* API: Gets list of cards from a specific set */
+app.get('/api/sets/:set', (req, res) => {
   const set = req.params.set;
+  const query =  `SELECT * FROM sets WHERE set_id='${set}' GROUP BY set_id`;
+
+  console.log(`[GET ${++serverReq}] - /api/sets/${set}`);
+  readReq(res, query);
+});
+
+/* API/POST: */
+app.post('/api/update/:set', (req, res) => {
+  const set = req.params.set;
+  insert(`./data/${req.params.set}`);
+
+  console.log(`[POST] - /api/update/${set}`);
   res.status(200).send(`Operation complete for ${set}`);
 });
 
