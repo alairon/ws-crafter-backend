@@ -3,7 +3,7 @@
 function postData(data){
   const xhr = new XMLHttpRequest();
 
-  xhr.open('POST', 'http://localhost:3000/api/cards');
+  xhr.open('POST', 'http://localhost:4176/api/cards');
   xhr.setRequestHeader('Content-Type', 'application/json');
   xhr.send(JSON.stringify(data));
 
@@ -31,7 +31,7 @@ function saveData(){
     "set_name": document.getElementById('setName').value,
     "set_number": parseInt(document.getElementById('setNumber').value),
     "set_side": document.getElementById('setSide').value,
-    "set_type": document.getElementById('setType').value,
+    "set_type": parseInt(document.getElementById('setType').value),
     "series_name": document.getElementById('seriesName').value,
     "total_cards": parseInt(document.getElementById('totalCards').value),
     "release_date": document.getElementById('releaseDate').value
