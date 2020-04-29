@@ -9,7 +9,7 @@ const { createFile } = require('./src/files/writeFile');
 const { insert } = require('./src/db/insert-psql');
 
 const app = express();
-const port = process.env.port || process.env.LOCAL_PORT;
+const port = process.env.PORT || process.env.LOCAL_PORT;
 
 
 let serverReq = 0;
