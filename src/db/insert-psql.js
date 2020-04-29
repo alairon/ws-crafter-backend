@@ -10,10 +10,7 @@ const readFileAsync = util.promisify(readFile);
 
 /* Gather the credentials with write permissions */
 const connection = new Pool({
-  host: process.env.DB_WRITE_HOST,
-  user: process.env.DB_WRITE_USER,
-  password: process.env.DB_WRITE_PASSWORD,
-  database: process.env.DB_WRITE_DATABASE,
+  connectionString: process.env.DATABASE_URL
 });
 
 /* Escapes apostrophe characters */
