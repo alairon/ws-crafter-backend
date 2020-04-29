@@ -3,7 +3,7 @@
 function postData(data){
   const xhr = new XMLHttpRequest();
 
-  xhr.open('POST', 'http://localhost:4176/api/cards');
+  xhr.open('POST', 'https://ws-crafter-backend.herokuapp.com/api/cards/');
   xhr.setRequestHeader('Content-Type', 'application/json');
   xhr.send(JSON.stringify(data));
 
