@@ -15,9 +15,20 @@ const corsConfig = {
   optionsSuccessStatus: 200
 };
 
+/* Force HTTPS */
+app.use((req, res, next) => {
+  if (req.headers['x-forwarded-proto'] !== 'https') {
+    const sslUrl = ['https://ws-crafter-backend.herokuapp.com', req.url].join('');
+    return res.redirect(sslUrl);
+  }
 
+  return next();
+})
+
+/* Tracks the number of requests received */
 let serverReq = 0;
 
+/* Use the JSON bodyParser */
 app.use(bodyParser.json());
 
 /* ROOT PAGE: Home page if no parameters are sent */
