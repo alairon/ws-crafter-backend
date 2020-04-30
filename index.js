@@ -10,6 +10,10 @@ const { insert } = require('./src/db/insert-psql');
 
 const app = express();
 const port = process.env.PORT || process.env.LOCAL_PORT;
+const corsConfig = {
+  origin: 'https://ws-crafter-backend.herokuapp.com',
+  optionsSuccessStatus: 200
+};
 
 
 let serverReq = 0;
@@ -23,12 +27,12 @@ app.get('/', (req, res) => {
 
 /* PAGE: Delivers a page for the user to input card data */
 app.use('/cards', express.static(path.join(__dirname, 'src/tools')));
-app.get('/cards', cors(), (req, res) => {
+app.get('/cards', (req, res) => {
   res.sendFile(path.join(__dirname, 'src/tools', 'index.html'));
 });
 
 /* POST: Receives data to be inserted onto the server */
-app.post('/api/cards', cors(), (req, res) => {
+app.post('/api/cards', cors(corsConfig), (req, res) => {
   const result = createFile(req.body[0]);
 
   console.log(`[POST ${++serverReq}] - /api/cards`);
@@ -37,7 +41,7 @@ app.post('/api/cards', cors(), (req, res) => {
 });
 
 /* API: Gets list of sets available on the server */
-app.get('/api/cards', cors(), (req, res) => {
+app.get('/api/cards', (req, res) => {
   const query = 'SELECT set_id, card_id, en_name FROM cards';
 
   console.log(`[GET ${++serverReq}] - /api/cards/`);
