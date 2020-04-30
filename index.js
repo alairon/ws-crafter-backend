@@ -23,21 +23,21 @@ app.get('/', (req, res) => {
 
 /* PAGE: Delivers a page for the user to input card data */
 app.use('/cards', express.static(path.join(__dirname, 'src/tools')));
-app.get('/cards', (req, res) => {
+app.get('/cards', cors(), (req, res) => {
   res.sendFile(path.join(__dirname, 'src/tools', 'index.html'));
 });
 
 /* POST: Receives data to be inserted onto the server */
-app.post('/api/cards/', (req, res) => {
+app.post('/api/cards', cors(), (req, res) => {
   const result = createFile(req.body[0]);
 
-  console.log(`[POST ${++serverReq}] - /api/cards/`);
+  console.log(`[POST ${++serverReq}] - /api/cards`);
   // Return HTTP 201 (successful entry) or 422 (bad entry)
   (result == 0) ? res.status(201).send('Request complete'): res.status(422).json(result);
 });
 
 /* API: Gets list of sets available on the server */
-app.get('/api/cards/', (req, res) => {
+app.get('/api/cards', cors(), (req, res) => {
   const query = 'SELECT set_id, card_id, en_name FROM cards';
 
   console.log(`[GET ${++serverReq}] - /api/cards/`);
