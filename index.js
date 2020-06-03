@@ -61,6 +61,7 @@ app.get('/api/cards', (req, res) => {
 
 /* API: Gets a detailed list of all cards from a specific set */
 app.get('/api/cards/:set', (req, res) => {
+  const set = req.params.set;
   const query = `SELECT * FROM cards WHERE set_id='${set}'`;
 
   console.log(`[GET ${++serverReq}] - /api/cards/${set}`);
@@ -115,7 +116,7 @@ app.get('/api/sets', (req, res) => {
 /* API: Gets list of cards from a specific set */
 app.get('/api/sets/:set', (req, res) => {
   const set = req.params.set;
-  const query =  `SELECT * FROM sets WHERE set_id='${set}' GROUP BY set_id`;
+  const query =  `SELECT * FROM sets WHERE set_id='${set}'`;
 
   console.log(`[GET ${++serverReq}] - /api/sets/${set}`);
   readReq(res, query);
@@ -132,7 +133,7 @@ app.post('/api/update/:set', (req, res) => {
 
 /* CORE: Alerts the server console that it is ready */
 app.listen((port), () => {
-  console.log('Welcome to WS Crafter - Server Build v12');
+  console.log('Welcome to WS Crafter - Server Build v12a');
   console.log(`This server is listening to port: ${port}`);
   console.log('-----');
 });
