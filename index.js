@@ -51,11 +51,19 @@ app.post('/api/cards', cors(corsConfig), (req, res) => {
   (result == 0) ? res.status(201).send('Request complete'): res.status(422).json(result);
 });
 
-/* API: Gets list of sets available on the server */
+/* API: Gets basic info of all the cards available on the server database */
 app.get('/api/cards', (req, res) => {
-  const query = 'SELECT set_id, card_id, en_name FROM cards';
+  const query = 'SELECT set_id, set_name, card_id, en_name FROM cards';
 
   console.log(`[GET ${++serverReq}] - /api/cards/`);
+  readReq(res, query);
+});
+
+/* API: Gets a detailed list of all cards from a specific set */
+app.get('/api/cards/:set', (req, res) => {
+  const query = `SELECT * FROM cards WHERE set_id='${set}'`;
+
+  console.log(`[GET ${++serverReq}] - /api/cards/${set}`);
   readReq(res, query);
 });
 
@@ -64,7 +72,7 @@ app.get('/api/cards/:set/character', (req, res) => {
   const set = req.params.set;
   const query = `SELECT * FROM characters WHERE set_id='${set}'`;
 
-  console.log(`[GET ${++serverReq}] - /api/${set}/character`);
+  console.log(`[GET ${++serverReq}] - /api/cards/${set}/character`);
   readReq(res, query);
 });
 
@@ -73,7 +81,7 @@ app.get('/api/cards/:set/event', (req, res) => {
   const set = req.params.set;
   const query = `SELECT * FROM events WHERE set_id='${set}'`;
 
-  console.log(`[GET ${++serverReq}] - /api/${set}/event`);
+  console.log(`[GET ${++serverReq}] - /api/cards/${set}/event`);
   readReq(res, query);
 });
 
@@ -82,7 +90,7 @@ app.get('/api/cards/:set/climax', (req, res) => {
   const set = req.params.set;
   const query = `SELECT * FROM climaxes WHERE set_id='${set}'`;
 
-  console.log(`[GET ${++serverReq}] - /api/${set}/climax`);
+  console.log(`[GET ${++serverReq}] - /api/cards/${set}/climax`);
   readReq(res, query);
 });
 
@@ -124,8 +132,7 @@ app.post('/api/update/:set', (req, res) => {
 
 /* CORE: Alerts the server console that it is ready */
 app.listen((port), () => {
-  console.log('Welcome to ws-crafter');
+  console.log('Welcome to WS Crafter - Server Build v12');
   console.log(`This server is listening to port: ${port}`);
   console.log('-----');
-  console.log('Ready');
 });
