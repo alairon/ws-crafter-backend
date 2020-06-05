@@ -119,7 +119,7 @@ app.get('/api/sets', (req, res) => {
 /* API: Gets list of cards from a specific set */
 app.get('/api/sets/:set', (req, res) => {
   const set = req.params.set;
-  const query =  `SELECT * FROM sets WHERE set_id ~*'${set}'`;
+  const query =  `SELECT * FROM sets WHERE set_id ~*'${set}' GROUP BY set_id`;
 
   console.log(`[GET ${++serverReq}] - /api/sets/${set}`);
   readReq(res, query);
@@ -136,7 +136,7 @@ app.post('/api/update/:set', (req, res) => {
 
 /* CORE: Alerts the server console that it is ready */
 app.listen((port), () => {
-  console.log('Welcome to WS Crafter - Server Build v13');
+  console.log('Welcome to WS Crafter - Server Build v13a');
   console.log(`This server is listening to port: ${port}`);
   console.log('-----');
 });
