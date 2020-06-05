@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <div id="header">
+    <h1>Connection Successful</h1>
+    <p>
+      Welcome to the backend system for WS Crafter!
+    </p>
+    <p>
+      If you came here for the API, you've come to the right place. Otherwise if you came for the actual website, please visit <a href=".">the actual page</a>.
+    </p>
+  </div>
+  <hr/>
+  <h2>API</h2>
+  <p>
+    Variables are represented with curly brackets {}. All of the following links will use the <i>Goblin Slayer</i> Expansion, using the set identifier <b>GBS</b>
+  </p>
+  <h3>Cards (GET)</h3>
+  <div id="cardGET">
+    <p>
+      <a href="./api/cards">api/cards</a> - Shows a simplified list of all the cards available on the server, regardless of set.
+      <br/>
+      <a href="./api/cards/GBS">api/cards/{set}</a> - Shows all of the cards available from a specified set.
+      <br/>
+      <a href="./api/cards/GBS/character">api/cards/{set}/character</a> - Shows all of the character cards available from a specified set.
+      <br/>
+      <a href="./api/cards/GBS/event">api/cards/{set}/event</a> - Shows all of the event cards available from a specific set.
+      <br/>
+      <a href="./api/cards/GBS/climax">api/cards/{set}/climax</a> - Shows all of the climax cards available from a specific set.
+      <br/>
+      <a href="./api/cards/GBS/01">api/cards/{set}/{cardNo}</a> - Searches the set for a card containing the card number, as defined as <b>{cardNo}</b>. For example, '01' will show all cards that contain '01' in the card's number.
+    </p>
+  </div>
+  <h3>Cards (POST)</h3>
+  <div id="cardPOST">
+    <p>
+      <a href="./api/cards">api/cards</a> - Receives a POST API call to insert card information from the card data creation tool at <a href="../cards">/cards</a>
+    </p>
+  </div>
+  <h3>Sets (GET)</h3>
+  <div id="setGET">
+    <p>
+      <a href="./api/sets/">api/sets</a> - Retrieves a list of sets available on the database.
+      <br/>
+      <a href="./api/sets/GBS">api/sets/{set}</a> - Retrieves information about a particular set from the database.
+    </p>
+  </div>
+  <h2>Tools</h2>
+  <div id="tools">
+    <p>
+      <a href="/cards">/cards</a> - The Card Creation Tool allows users to generate a JSON file stored on the server to be inserted into the database.
+    </p>
+  </div>
+</html>

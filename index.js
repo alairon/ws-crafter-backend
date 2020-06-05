@@ -15,15 +15,7 @@ const corsConfig = {
   optionsSuccessStatus: 200
 };
 
-/* Force HTTPS */
-app.use((req, res, next) => {
-  if (req.headers['x-forwarded-proto'] !== 'https') {
-    const sslUrl = ['https://ws-crafter-backend.herokuapp.com', req.url].join('');
-    return res.redirect(sslUrl);
-  }
 
-  return next();
-})
 
 /* Tracks the number of requests received */
 let serverReq = 0;
@@ -31,9 +23,20 @@ let serverReq = 0;
 /* Use the JSON bodyParser */
 app.use(bodyParser.json());
 
+/* Force all non-HTTPS protocols to HTTPS */
+app.use((req, res, next) => {
+  if (req.headers['x-forwarded-proto'] !== 'https') {
+    const sslUrl = ['https://ws-crafter-backend.herokuapp.com', req.url].join('');
+    return res.redirect(sslUrl);
+  }
+
+  return next();
+});
+
 /* ROOT PAGE: Home page if no parameters are sent */
+app.use('/', express.static(path.join(__dirname, 'src/pages')));
 app.get('/', (req, res) => {
-  res.send('Connection Successful');
+  res.sendFile(path.join(__dirname, 'src/pages', 'index.html'));
 });
 
 /* PAGE: Delivers a page for the user to input card data */
@@ -62,7 +65,7 @@ app.get('/api/cards', (req, res) => {
 /* API: Gets a detailed list of all cards from a specific set */
 app.get('/api/cards/:set', (req, res) => {
   const set = req.params.set;
-  const query = `SELECT * FROM cards WHERE set_id='${set}'`;
+  const query = `SELECT * FROM cards WHERE set_id ~* '${set}'`;
 
   console.log(`[GET ${++serverReq}] - /api/cards/${set}`);
   readReq(res, query);
@@ -71,7 +74,7 @@ app.get('/api/cards/:set', (req, res) => {
 /* API: Gets a detailed list of character cards from a specific set */
 app.get('/api/cards/:set/character', (req, res) => {
   const set = req.params.set;
-  const query = `SELECT * FROM characters WHERE set_id='${set}'`;
+  const query = `SELECT * FROM characters WHERE set_id ~* '${set}'`;
 
   console.log(`[GET ${++serverReq}] - /api/cards/${set}/character`);
   readReq(res, query);
@@ -80,7 +83,7 @@ app.get('/api/cards/:set/character', (req, res) => {
 /* API: Gets a detailed list of event cards from a specific set */
 app.get('/api/cards/:set/event', (req, res) => {
   const set = req.params.set;
-  const query = `SELECT * FROM events WHERE set_id='${set}'`;
+  const query = `SELECT * FROM events WHERE set_id ~* '${set}'`;
 
   console.log(`[GET ${++serverReq}] - /api/cards/${set}/event`);
   readReq(res, query);
@@ -89,7 +92,7 @@ app.get('/api/cards/:set/event', (req, res) => {
 /* API: Gets a detailed list of climax cards from a specific set */
 app.get('/api/cards/:set/climax', (req, res) => {
   const set = req.params.set;
-  const query = `SELECT * FROM climaxes WHERE set_id='${set}'`;
+  const query = `SELECT * FROM climaxes WHERE set_id ~* '${set}'`;
 
   console.log(`[GET ${++serverReq}] - /api/cards/${set}/climax`);
   readReq(res, query);
@@ -99,7 +102,7 @@ app.get('/api/cards/:set/climax', (req, res) => {
 app.get('/api/cards/:set/:cardNo', (req, res) => {
   const setID = req.params.set;
   const cardNo = req.params.cardNo;
-  const query = `SELECT card_id, en_name, card_type FROM cards WHERE set_id='${setID}' AND card_id LIKE '%-%${cardNo}%'`;
+  const query = `SELECT card_id, en_name, card_type FROM cards WHERE set_id ~* '${setID}' AND card_id LIKE '%-%${cardNo}%'`;
 
   console.log(`[GET ${++serverReq}] - /api/cards/${setID}/${cardNo}`);
   readReq(res, query);
@@ -116,7 +119,7 @@ app.get('/api/sets', (req, res) => {
 /* API: Gets list of cards from a specific set */
 app.get('/api/sets/:set', (req, res) => {
   const set = req.params.set;
-  const query =  `SELECT * FROM sets WHERE set_id='${set}'`;
+  const query =  `SELECT * FROM sets WHERE set_id ~*'${set}'`;
 
   console.log(`[GET ${++serverReq}] - /api/sets/${set}`);
   readReq(res, query);
@@ -133,7 +136,7 @@ app.post('/api/update/:set', (req, res) => {
 
 /* CORE: Alerts the server console that it is ready */
 app.listen((port), () => {
-  console.log('Welcome to WS Crafter - Server Build v12a');
+  console.log('Welcome to WS Crafter - Server Build v13');
   console.log(`This server is listening to port: ${port}`);
   console.log('-----');
 });
