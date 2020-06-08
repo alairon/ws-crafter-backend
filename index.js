@@ -131,19 +131,19 @@ app.post('/api/sets/:set/:key', (req, res) => {
   const key = req.params.key;
   
   if (key === process.env.UNLOCK_KEY) {
+    console.log(`[POST ${++serverReq}] - /api/sets/${set}`);
     insert(`./data/${req.params.set}`);
-    console.log(`[POST] - /api/sets/${set}`);
     res.status(200).send(`Operation complete for ${set}`);
   }
   else {
-    console.log(`[POST] - /api/sets/${set} - INVALID KEY`)
+    console.log(`[POST ${++serverReq}, ERROR] - /api/sets/${set}`)
     res.status(403).send(`Invalid unlock key. Please check that you have the correct key and try again.`);
   }
 });
 
 /* CORE: Alerts the server console that it is ready */
 app.listen((port), () => {
-  console.log('Welcome to WS Crafter - Server Build v13b');
+  console.log('Welcome to WS Crafter - Server Build v15');
   console.log(`This server is listening to port: ${port}`);
   console.log('-----');
 });
