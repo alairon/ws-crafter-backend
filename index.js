@@ -125,18 +125,24 @@ app.get('/api/sets/:set', (req, res) => {
   readReq(res, query);
 });
 
-/* API/POST: */
-app.post('/api/update/:set', (req, res) => {
+/* API: Updates the contents of the database with the specified set */
+app.post('/api/sets/:set/:key', (req, res) => {
   const set = req.params.set;
+  const key = req.params.key;
   insert(`./data/${req.params.set}`);
 
-  console.log(`[POST] - /api/update/${set}`);
-  res.status(200).send(`Operation complete for ${set}`);
+  if (key === process.env.UNLOCK_KEY) {
+    console.log(`[POST] - /api/update/${set}`);
+    res.status(200).send(`Operation complete for ${set}`);
+  }
+  else {
+    res.status(403).send(`Invalid unlock key. Database contents in ${set} has not been modified.`);
+  }
 });
 
 /* CORE: Alerts the server console that it is ready */
 app.listen((port), () => {
-  console.log('Welcome to WS Crafter - Server Build v13a');
+  console.log('Welcome to WS Crafter - Server Build v13b');
   console.log(`This server is listening to port: ${port}`);
   console.log('-----');
 });
