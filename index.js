@@ -129,14 +129,15 @@ app.get('/api/sets/:set', (req, res) => {
 app.post('/api/sets/:set/:key', (req, res) => {
   const set = req.params.set;
   const key = req.params.key;
-  insert(`./data/${req.params.set}`);
-
+  
   if (key === process.env.UNLOCK_KEY) {
-    console.log(`[POST] - /api/update/${set}`);
+    insert(`./data/${req.params.set}`);
+    console.log(`[POST] - /api/sets/${set}`);
     res.status(200).send(`Operation complete for ${set}`);
   }
   else {
-    res.status(403).send(`Invalid unlock key. Database contents in ${set} has not been modified.`);
+    console.log(`[POST] - /api/sets/${set} - INVALID KEY`)
+    res.status(403).send(`Invalid unlock key. Please check that you have the correct key and try again.`);
   }
 });
 
